@@ -1,0 +1,36 @@
+export const Colors = {
+  light: {
+    background: '#F6F8FA',
+    surface: '#FFFFFF',
+    text: '#1F2328',
+    textSecondary: '#656D76',
+    textMuted: '#BFCBD0',
+    border: '#D0D7DE',
+    accent: '#1F6FEB',
+    accentGreen: '#1A7F37',
+    inputBg: '#F6F8FA',
+    skeleton: '#EAEEF2',
+    error: '#CF222E',
+    star: '#9A6700',
+    fork: '#57606A',
+    headerBg: '#FFFFFF',
+  },
+  dark: {
+    background: '#0D1117',
+    surface: '#161B22',
+    text: '#E6EDF3',
+    textSecondary: '#8B949E',
+    textMuted: '#484F58',
+    border: '#30363D',
+    accent: '#58A6FF',
+    accentGreen: '#3FB950',
+    inputBg: '#0D1117',
+    skeleton: '#1F262E',
+    error: '#F85149',
+    star: '#D29922',
+    fork: '#8B949E',
+    headerBg: '#161B22',
+  },
+} as const;
+
+export type AppColors = { [K in keyof typeof Colors.light]: string };

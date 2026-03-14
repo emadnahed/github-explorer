@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GitHub Talent Scout — Screen Designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0B0B0C;
+  --s0:       #0F0F11;
+  --s1:       #141416;
+  --s2:       #1B1B1F;
+  --s3:       #222228;
+  --border:   rgba(255,255,255,0.06);
+  --border2:  rgba(255,255,255,0.10);
+  --border3:  rgba(255,255,255,0.15);
+  --text:     #DDDDE0;
+  --text2:    #7A7A82;
+  --text3:    #3E3E46;
+  --accent:   #6471E0;
+  --accent-l: rgba(100,113,224,0.12);
+  --green:    #3ECF8E;
+  --green-l:  rgba(62,207,142,0.10);
+  --amber:    #C9872A;
+  --amber-l:  rgba(201,135,42,0.10);
+  --serif:    'Instrument Serif', Georgia, serif;
+  --sans:     'IBM Plex Sans', sans-serif;
+  --mono:     'IBM Plex Mono', monospace;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--sans);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 0; height: 0; }
+
+.page-header {
+  padding: 64px 40px 0;
+  text-align: center;
+  animation: rise 0.6s ease both;
+}
+.page-label {
+  font-family: var(--mono);
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 16px;
+}
+.page-title {
+  font-family: var(--serif);
+  font-size: 44px; font-weight: 400; font-style: italic;
+  color: var(--text); letter-spacing: -0.5px;
+  margin-bottom: 10px; line-height: 1.1;
+}
+.page-sub {
+  font-size: 14px; font-weight: 300;
+  color: var(--text2); line-height: 1.6;
+  max-width: 420px; margin: 0 auto 44px;
+}
+
+.tab-row {
+  display: flex; justify-content: center; gap: 2px;
+  padding: 0 20px; margin-bottom: 56px; flex-wrap: wrap;
+  animation: rise 0.6s 0.08s ease both;
+}
+.tab {
+  font-family: var(--mono); font-size: 11px; font-weight: 400;
+  letter-spacing: 0.3px; padding: 7px 16px; border-radius: 5px;
+  border: 1px solid transparent; color: var(--text3); cursor: pointer;
+  transition: color 0.15s, border-color 0.15s; white-space: nowrap;
+}
+.tab:hover { color: var(--text2); }
+.tab.on { border-color: var(--border2); color: var(--text); background: var(--s1); }
+
+.grid {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 48px; padding: 0 32px 100px;
+}
+.wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  animation: rise 0.5s ease both;
+}
+.wrap:nth-child(1) { animation-delay: 0.04s; }
+.wrap:nth-child(2) { animation-delay: 0.08s; }
+.wrap:nth-child(3) { animation-delay: 0.12s; }
+.wrap:nth-child(4) { animation-delay: 0.16s; }
+.wrap:nth-child(5) { animation-delay: 0.20s; }
+.wrap:nth-child(6) { animation-delay: 0.24s; }
+.frame-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 400;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3);
+}
+
+.phone {
+  width: 375px; height: 812px;
+  background: var(--s0);
+  border-radius: 50px;
+  border: 1.5px solid rgba(255,255,255,0.09);
+  overflow: hidden; position: relative; flex-shrink: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05) inset, 0 32px 72px rgba(0,0,0,0.6), 0 8px 24px rgba(0,0,0,0.4);
+  transition: transform 0.4s cubic-bezier(0.34,1.46,0.64,1), box-shadow 0.4s ease;
+}
+.phone:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 48px 90px rgba(0,0,0,0.7);
+}
+
+.sb {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 28px 8px;
+  font-family: var(--mono); font-size: 12px; color: var(--text);
+}
+.sb-r { display: flex; align-items: center; gap: 7px; }
+.bars { display: flex; align-items: flex-end; gap: 2.5px; height: 11px; }
+.bars span { width: 3px; border-radius: 1px; background: var(--text2); display: block; }
+.bars span:nth-child(1) { height: 4px; }
+.bars span:nth-child(2) { height: 7px; }
+.bars span:nth-child(3) { height: 11px; }
+.batt {
+  width: 22px; height: 11px; border-radius: 2.5px;
+  border: 1px solid rgba(255,255,255,0.3); padding: 1.5px;
+  display: flex; align-items: center; position: relative;
+}
+.batt::after {
+  content: ''; position: absolute; right: -4px; top: 50%; transform: translateY(-50%);
+  width: 2.5px; height: 5px; border-radius: 0 1px 1px 0; background: rgba(255,255,255,0.25);
+}
+.batt-fill { height: 100%; width: 72%; border-radius: 1px; background: var(--green); }
+
+.island {
+  width: 110px; height: 32px; border-radius: 18px;
+  background: #000; margin: 0 auto 14px;
+}
+
+.screen {
+  height: calc(100% - 108px);
+  overflow-y: auto; overflow-x: hidden; scrollbar-width: none;
+}
+
+.px { padding: 0 22px; }
+.sh { padding: 4px 22px 18px; }
+.sh h2 {
+  font-family: var(--serif); font-size: 28px; font-weight: 400; font-style: italic;
+  color: var(--text); letter-spacing: -0.3px; margin-bottom: 3px;
+}
+.sh p { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--text3); letter-spacing: 0.5px; }
+
+.div { height: 1px; background: var(--border); margin: 0 22px 16px; }
+.mlabel {
+  font-family: var(--mono); font-size: 10px; font-weight: 400;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  color: var(--text3); padding: 0 22px; margin-bottom: 10px;
+}
+
+/* SEARCH */
+.sw {
+  margin: 0 22px 16px; background: var(--s2); border: 1px solid var(--border2);
+  border-radius: 10px; padding: 11px 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sw svg { color: var(--text3); flex-shrink: 0; }
+.st { font-family: var(--mono); font-size: 12px; font-weight: 300; color: var(--text2); flex: 1; }
+.fp {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 5px;
+  background: var(--s3); border: 1px solid var(--border2);
+  font-family: var(--mono); font-size: 10px; color: var(--text2); flex-shrink: 0;
+}
+.chips { display: flex; gap: 6px; padding: 0 22px; overflow-x: auto; margin-bottom: 20px; scrollbar-width: none; }
+.chip {
+  flex-shrink: 0; padding: 4px 11px; border-radius: 4px;
+  font-family: var(--mono); font-size: 10px; border: 1px solid var(--border); color: var(--text3);
+}
+.chip.on { border-color: var(--border2); color: var(--text2); background: var(--s2); }
+
+/* DEV ROW */
+.dr {
+  display: flex; align-items: center; gap: 13px;
+  margin: 0 22px; padding: 13px 14px;
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 10px; position: relative; overflow: hidden;
+}
+.dr + .dr { margin-top: 6px; }
+.dr::before {
+  content: ''; position: absolute; left: 0; top: 10px; bottom: 10px;
+  width: 2px; border-radius: 0 1px 1px 0;
+}
+.dr.h::before { background: var(--green); }
+.dr.m::before { background: var(--amber); }
+.dr.l::before { background: var(--text3); }
+.ava {
+  width: 44px; height: 44px; border-radius: 11px; background: var(--s3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 13px; font-weight: 500; flex-shrink: 0;
+}
+.dn { font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.dh { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); margin-bottom: 6px; }
+.dm { display: flex; align-items: center; gap: 10px; }
+.dl { display: flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 10px; color: var(--text2); }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.df { font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+/* RING */
+.rw { flex-shrink: 0; width: 44px; height: 44px; position: relative; }
+.rw svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.rt { fill: none; stroke: var(--border2); stroke-width: 2.5; }
+.rf { fill: none; stroke-width: 2.5; stroke-linecap: round; }
+.rf.h { stroke: var(--green); }
+.rf.m { stroke: var(--amber); }
+.rf.l { stroke: var(--text3); }
+.rn {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--text);
+}
+
+/* PROFILE */
+.pb { height: 3px; background: linear-gradient(90deg, var(--accent), transparent); margin-bottom: 18px; }
+.ph { padding: 0 22px 18px; }
+.pt { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+.pa {
+  width: 64px; height: 64px; border-radius: 16px; background: var(--s3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 20px; font-weight: 500;
+  border: 1px solid var(--border2); flex-shrink: 0;
+}
+.pname { font-family: var(--serif); font-size: 22px; font-weight: 400; font-style: italic; color: var(--text); letter-spacing: -0.2px; margin-bottom: 2px; }
+.phandle { font-family: var(--mono); font-size: 11px; font-weight: 300; color: var(--text3); margin-bottom: 10px; }
+.brow { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn { padding: 6px 13px; border-radius: 6px; font-family: var(--mono); font-size: 10px; font-weight: 400; border: 1px solid; }
+.btnp { border-color: rgba(100,113,224,0.35); background: var(--accent-l); color: var(--accent); }
+.btng { border-color: var(--border2); background: transparent; color: var(--text2); }
+.pbio { font-size: 12px; font-weight: 300; color: var(--text2); line-height: 1.6; margin-bottom: 12px; }
+.ptags { display: flex; flex-wrap: wrap; gap: 14px; }
+.ptag { display: flex; align-items: center; gap: 5px; font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); }
+
+/* SCORE BLOCK */
+.sb2 { margin: 0 22px 18px; background: var(--s1); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.sb2-top { padding: 16px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--border); }
+.br {
+  width: 72px; height: 72px; position: relative; flex-shrink: 0;
+}
+.br svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.br .bn {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+}
+.br .bn b { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--green); line-height: 1; }
+.br .bn span { font-family: var(--mono); font-size: 9px; font-weight: 300; color: var(--text3); }
+.sv2 { font-family: var(--serif); font-size: 16px; font-style: italic; color: var(--text); margin-bottom: 4px; }
+.sn { font-size: 11px; font-weight: 300; color: var(--text3); line-height: 1.5; }
+.ss { padding: 14px 16px; display: flex; flex-direction: column; gap: 9px; }
+.ssr { display: flex; align-items: center; gap: 10px; }
+.ssk { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); width: 60px; flex-shrink: 0; }
+.ssb { flex: 1; height: 2px; border-radius: 1px; background: var(--border); }
+.ssf { height: 100%; border-radius: 1px; }
+.ssv { font-family: var(--mono); font-size: 10px; font-weight: 500; width: 24px; text-align: right; }
+
+/* STATS */
+.srow { display: flex; margin: 0 22px 18px; gap: 8px; }
+.sbox { flex: 1; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; }
+.sv3 { font-family: var(--mono); font-size: 17px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.sk { font-family: var(--mono); font-size: 9px; font-weight: 300; color: var(--text3); letter-spacing: 1.2px; text-transform: uppercase; }
+
+/* NOTES */
+.nbox { margin: 0 22px 18px; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.nt { font-family: var(--sans); font-size: 12px; font-weight: 300; color: var(--text2); line-height: 1.6; margin-bottom: 8px; }
+.nm { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); display: flex; align-items: center; gap: 5px; }
+
+/* REPOS */
+.sbar { display: flex; gap: 6px; padding: 0 22px; overflow-x: auto; margin-bottom: 18px; scrollbar-width: none; }
+.sc { flex-shrink: 0; padding: 5px 13px; border-radius: 5px; font-family: var(--mono); font-size: 10px; font-weight: 400; border: 1px solid var(--border); color: var(--text3); }
+.sc.on { border-color: var(--border2); color: var(--text); background: var(--s2); }
+.rc { margin: 0 22px 7px; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; padding: 13px 15px; }
+.rct { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 5px; }
+.rcn { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--text); }
+.ftag { font-family: var(--mono); font-size: 9px; padding: 2px 7px; border-radius: 3px; background: var(--s3); border: 1px solid var(--border2); color: var(--text3); }
+.rcd { font-size: 11px; font-weight: 300; color: var(--text3); line-height: 1.45; margin-bottom: 10px; }
+.rcm { display: flex; align-items: center; gap: 12px; }
+.rcs { display: flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 10px; color: var(--text3); }
+.rca { margin-left: auto; font-family: var(--mono); font-size: 10px; color: var(--text3); }
+
+/* LANGUAGE */
+.irow { display: flex; gap: 8px; margin: 0 22px 20px; }
+.ibox { flex: 1; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; padding: 12px 10px; text-align: center; }
+.iv { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
+.ik { font-family: var(--mono); font-size: 9px; font-weight: 300; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+.dw { display: flex; justify-content: center; padding: 4px 0 22px; }
+.dc { width: 186px; height: 186px; position: relative; }
+.dc svg { width: 100%; height: 100%; }
+.dcc { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.dcv { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--text); }
+.dcl { font-family: var(--mono); font-size: 9px; font-weight: 300; color: var(--text3); }
+.ll { padding: 0 22px; }
+.lr { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.lr:last-child { border-bottom: none; }
+.lc2 { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.ln { font-family: var(--mono); font-size: 11px; font-weight: 400; color: var(--text); width: 80px; flex-shrink: 0; }
+.lb { flex: 1; }
+.lbb { height: 2px; border-radius: 1px; background: var(--border); }
+.lbf { height: 100%; border-radius: 1px; }
+.lp { font-family: var(--mono); font-size: 10px; font-weight: 400; color: var(--text2); width: 34px; text-align: right; }
+
+/* SHORTLISTS */
+.slbar { display: flex; align-items: center; justify-content: space-between; padding: 0 22px; margin-bottom: 18px; }
+.slc { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); }
+.nb { display: flex; align-items: center; gap: 5px; padding: 6px 13px; border-radius: 6px; background: var(--accent-l); border: 1px solid rgba(100,113,224,0.25); font-family: var(--mono); font-size: 10px; color: var(--accent); }
+.slcard { margin: 0 22px 8px; background: var(--s1); border: 1px solid var(--border); border-radius: 11px; overflow: hidden; }
+.slh { padding: 12px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+.sli { width: 30px; height: 30px; border-radius: 7px; background: var(--s3); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.slt { font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+.sln { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); padding: 2px 8px; border-radius: 3px; background: var(--s3); }
+.slb { padding: 11px 14px; display: flex; align-items: center; gap: 7px; }
+.ma { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; font-weight: 500; background: var(--s3); border: 1px solid var(--border); }
+.more { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-left: 2px; }
+.slav { margin-left: auto; display: flex; align-items: baseline; gap: 5px; }
+.slavv { font-family: var(--mono); font-size: 14px; font-weight: 500; }
+.slavk { font-family: var(--mono); font-size: 9px; font-weight: 300; color: var(--text3); }
+.bki { display: flex; align-items: center; gap: 11px; padding: 10px 14px; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; }
+.bki + .bki { margin-top: 6px; }
+.bka { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 500; background: var(--s3); border: 1px solid var(--border); flex-shrink: 0; }
+.bkn { font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+.bks { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); }
+
+/* COMPARE */
+.chead { display: flex; align-items: center; padding: 10px 22px 16px; border-bottom: 1px solid var(--border); margin-bottom: 16px; gap: 14px; }
+.cside { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.cava { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 17px; font-weight: 500; background: var(--s3); border: 1px solid var(--border2); flex-shrink: 0; }
+.chandle { font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text2); }
+.vs { font-family: var(--serif); font-size: 14px; font-style: italic; color: var(--text3); flex-shrink: 0; }
+.mrow { margin: 0 22px 6px; display: flex; align-items: stretch; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.mrow.wl { border-color: rgba(62,207,142,0.18); }
+.mrow.wr { border-color: rgba(100,113,224,0.18); }
+.mc { flex: 1; padding: 11px 12px; display: flex; flex-direction: column; justify-content: center; }
+.mc.r { align-items: flex-end; }
+.mck { font-family: var(--mono); font-size: 9px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); text-align: center; padding: 11px 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); width: 72px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.mv { font-family: var(--mono); font-size: 17px; font-weight: 500; color: var(--text2); }
+.mv.gl { color: var(--green); }
+.mv.gr { color: var(--accent); }
+.wtag { font-family: var(--mono); font-size: 9px; font-weight: 300; padding: 2px 7px; border-radius: 3px; margin-top: 3px; display: inline-block; }
+.wtag.l { background: var(--green-l); color: var(--green); }
+.wtag.r { background: var(--accent-l); color: var(--accent); }
+.olap { margin: 12px 22px 0; background: var(--s1); border: 1px solid var(--border); border-radius: 10px; padding: 13px 14px; }
+.olk { font-family: var(--mono); font-size: 10px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); margin-bottom: 10px; }
+.olt { display: flex; flex-wrap: wrap; gap: 6px; }
+.oltag { display: flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 4px; background: var(--s2); border: 1px solid var(--border2); font-family: var(--mono); font-size: 10px; color: var(--text2); }
+.cacts { display: flex; gap: 8px; margin: 14px 22px 0; }
+.cbt { flex: 1; padding: 11px; border-radius: 8px; text-align: center; font-family: var(--mono); font-size: 10px; font-weight: 400; border: 1px solid; }
+.cbt.p { background: var(--accent-l); border-color: rgba(100,113,224,0.3); color: var(--accent); }
+.cbt.g { background: transparent; border-color: var(--border2); color: var(--text3); }
+
+/* BOTTOM NAV */
+.bnav { position: absolute; bottom: 0; left: 0; right: 0; height: 76px; background: var(--s0); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-around; padding: 0 10px 14px; }
+.ni { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.nil { font-family: var(--mono); font-size: 9px; font-weight: 300; letter-spacing: 0.3px; color: var(--text3); }
+.ni.on .nil { color: var(--accent); }
+.ndot { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
+
+.pfooter { text-align: center; padding: 0 20px 60px; }
+.fs { display: inline-flex; align-items: center; gap: 16px; padding: 10px 22px; border-radius: 6px; border: 1px solid var(--border); background: var(--s0); font-family: var(--mono); font-size: 10px; font-weight: 300; color: var(--text3); letter-spacing: 0.5px; }
+.fd { width: 3px; height: 3px; border-radius: 50%; background: var(--text3); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-label">Screen Designs · 6 Views</div>
+  <div class="page-title">GitHub Talent Scout</div>
+  <p class="page-sub">Developer evaluation tool for recruiting teams — data-driven hiring without the noise.</p>
+</div>
+
+<div class="tab-row">
+  <div class="tab on">All</div>
+  <div class="tab">Search</div>
+  <div class="tab">Profile</div>
+  <div class="tab">Repositories</div>
+  <div class="tab">Languages</div>
+  <div class="tab">Shortlists</div>
+  <div class="tab">Compare</div>
+</div>
+
+<div class="grid">
+
+<!-- ── SCREEN 1: SEARCH ── -->
+<div class="wrap">
+<div class="phone">
+  <div class="sb"><span>9:41</span><div class="sb-r"><div class="bars"><span></span><span></span><span></span></div><div class="batt"><div class="batt-fill"></div></div></div></div>
+  <div class="island"></div>
+  <div class="screen">
+    <div class="sh"><h2>Discover</h2><p>// find your next engineer</p></div>
+    <div class="sw">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="6" cy="6" r="4.5"/><path d="m10 10 3 3"/></svg>
+      <div class="st">language:TypeScript location:London</div>
+      <div class="fp"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M1 2.5h8M2.5 5h5M4 7.5h2"/></svg>Filter</div>
+    </div>
+    <div class="chips">
+      <div class="chip on">TypeScript</div>
+      <div class="chip on">London</div>
+      <div class="chip">50+ followers</div>
+      <div class="chip">Go</div>
+      <div class="chip">Berlin</div>
+    </div>
+    <div class="mlabel">23 candidates</div>
+
+    <div class="dr h">
+      <div class="ava" style="color:#3ECF8E;">TL</div>
+      <div style="flex:1;"><div class="dn">Theo Larcombe</div><div class="dh">@theolarcombe</div><div class="dm"><div class="dl"><div class="dot" style="background:#3178C6;"></div>TypeScript</div><div class="df">4.2k followers</div></div></div>
+      <div class="rw"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rf h" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="19"/></svg><div class="rn">87</div></div>
+    </div>
+    <div class="dr m">
+      <div class="ava" style="color:#C9872A;">SR</div>
+      <div style="flex:1;"><div class="dn">Soren Rask</div><div class="dh">@sorenskode</div><div class="dm"><div class="dl"><div class="dot" style="background:#00ADD8;"></div>Go</div><div class="df">1.8k followers</div></div></div>
+      <div class="rw"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rf m" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="52"/></svg><div class="rn">54</div></div>
+    </div>
+    <div class="dr h">
+      <div class="ava" style="color:#6471E0;">AK</div>
+      <div style="flex:1;"><div class="dn">Anika Kallis</div><div class="dh">@anika_builds</div><div class="dm"><div class="dl"><div class="dot" style="background:#3178C6;"></div>TypeScript</div><div class="df">6.1k followers</div></div></div>
+      <div class="rw"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rf h" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="9"/></svg><div class="rn">91</div></div>
+    </div>
+    <div class="dr l">
+      <div class="ava" style="color:#7A7A82;">MJ</div>
+      <div style="flex:1;"><div class="dn">Marcus J.</div><div class="dh">@mjdev88</div><div class="dm"><div class="dl"><div class="dot" style="background:#3572A5;"></div>Python</div><div class="df">312 followers</div></div></div>
+      <div class="rw"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rf l" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="85"/></svg><div class="rn">25</div></div>
+    </div>
+    <div class="dr h">
+      <div class="ava" style="color:#3ECF8E;">PB</div>
+      <div style="flex:1;"><div class="dn">Petra Böhm</div><div class="dh">@petrab</div><div class="dm"><div class="dl"><div class="dot" style="background:#DEA584;"></div>Rust</div><div class="df">3.7k followers</div></div></div>
+      <div class="rw"><svg viewBox="0 0 44 44"><circle class="rt" cx="22" cy="22" r="18"/><circle class="rf h" cx="22" cy="22" r="18" stroke-dasharray="113.1" stroke-dashoffset="23"/></svg><div class="rn">80</div></div>
+    </div>
+    <div style="padding-bottom:90px;"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6471E0" stroke-width="1.3"><circle cx="8" cy="8" r="5.5"/><path d="m13 13 3.5 3.5"/></svg><div class="nil">Search</div><div class="ndot"></div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="10" y="2" width="6" height="6" rx="1"/><rect x="2" y="10" width="6" height="6" rx="1"/><rect x="10" y="10" width="6" height="6" rx="1"/></svg><div class="nil">Lists</div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><path d="M2 9h14M9 2l7 7-7 7"/></svg><div class="nil">Compare</div></div>
+  </div>
+</div>
+<div class="frame-label">01 — Search</div>
+</div>
+
+<!-- ── SCREEN 2: PROFILE ── -->
+<div class="wrap">
+<div class="phone">
+  <div class="sb"><span>9:41</span><div class="sb-r"><div class="bars"><span></span><span></span><span></span></div><div class="batt"><div class="batt-fill"></div></div></div></div>
+  <div class="island"></div>
+  <div class="screen">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 22px 14px;">
+      <div style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text3);"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 2L3 6l5 4"/></svg>Results</div>
+      <div style="display:flex;gap:14px;"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><path d="M4 3.5h10M4 7h10M4 10.5h7"/></svg></div>
+    </div>
+    <div class="pb"></div>
+    <div class="ph">
+      <div class="pt">
+        <div class="pa" style="color:#3ECF8E;">TL</div>
+        <div>
+          <div class="pname">Theo Larcombe</div>
+          <div class="phandle">@theolarcombe</div>
+          <div class="brow">
+            <div class="btn btnp">+ Shortlist</div>
+            <div class="btn btng">Compare</div>
+            <div class="btn btng"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 5.5h7M5.5 2l3.5 3.5L5.5 9"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="pbio">Full-stack engineer building developer tooling. OSS contributor. Prev @stripe, @vercel. Distributed systems and elegant abstractions.</div>
+      <div class="ptags">
+        <div class="ptag"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.1"><circle cx="5" cy="3.5" r="1.8"/><path d="M1 9c0-2 1.8-3.5 4-3.5s4 1.5 4 3.5"/></svg>London, UK</div>
+        <div class="ptag"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.1"><rect x="1" y="1.5" width="8" height="7" rx="1"/><path d="M3 1.5v1m4-1v1M1 4.5h8"/></svg>Since Feb 2018</div>
+        <div class="ptag"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.1"><circle cx="5" cy="5" r="4"/><path d="M5 2.5V5l2 1.5"/></svg>Active 2d ago</div>
+      </div>
+    </div>
+    <div class="div"></div>
+    <div class="mlabel">Developer Score</div>
+    <div class="sb2">
+      <div class="sb2-top">
+        <div class="br">
+          <svg viewBox="0 0 72 72"><circle fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4" cx="36" cy="36" r="30"/><circle fill="none" stroke="#3ECF8E" stroke-width="4" stroke-linecap="round" cx="36" cy="36" r="30" stroke-dasharray="188.5" stroke-dashoffset="24"/></svg>
+          <div class="bn"><b>87</b><span>/100</span></div>
+        </div>
+        <div><div class="sv2">Strong Candidate</div><div class="sn">Top 12% of evaluated developers. High influence and recent activity.</div></div>
+      </div>
+      <div class="ss">
+        <div class="ssr"><div class="ssk">Stars</div><div class="ssb"><div class="ssf" style="width:82%;background:var(--green);"></div></div><div class="ssv" style="color:var(--green);">33</div></div>
+        <div class="ssr"><div class="ssk">Influence</div><div class="ssb"><div class="ssf" style="width:70%;background:var(--accent);"></div></div><div class="ssv" style="color:var(--accent);">25</div></div>
+        <div class="ssr"><div class="ssk">Activity</div><div class="ssb"><div class="ssf" style="width:90%;background:var(--green);"></div></div><div class="ssv" style="color:var(--green);">18</div></div>
+        <div class="ssr"><div class="ssk">Profile</div><div class="ssb"><div class="ssf" style="width:100%;background:var(--amber);"></div></div><div class="ssv" style="color:var(--amber);">10</div></div>
+      </div>
+    </div>
+    <div class="srow">
+      <div class="sbox"><div class="sv3">142</div><div class="sk">Repos</div></div>
+      <div class="sbox"><div class="sv3">4.2k</div><div class="sk">Followers</div></div>
+      <div class="sbox"><div class="sv3">318</div><div class="sk">Following</div></div>
+    </div>
+    <div class="div"></div>
+    <div class="mlabel">Recruiter Notes</div>
+    <div class="nbox">
+      <div class="nt">Strong TypeScript background. Stripe experience is a genuine plus. Schedule screening for Thursday.</div>
+      <div class="nm"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.1"><circle cx="5" cy="5" r="4"/><path d="M5 2.5V5l2 1.5"/></svg>Stored locally · not synced</div>
+    </div>
+    <div style="padding-bottom:90px;"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="8" cy="8" r="5.5"/><path d="m13 13 3.5 3.5"/></svg><div class="nil">Search</div></div>
+    <div class="ni on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6471E0" stroke-width="1.3"><circle cx="9" cy="6" r="3.5"/><path d="M2.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg><div class="nil">Profile</div><div class="ndot"></div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><path d="M2 5h14M2 9h14M2 13h9"/></svg><div class="nil">Repos</div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="9" cy="9" r="7"/><path d="M9 2v7l3.5 3.5"/></svg><div class="nil">Langs</div></div>
+  </div>
+</div>
+<div class="frame-label">02 — Profile</div>
+</div>
+
+<!-- ── SCREEN 3: REPOS ── -->
+<div class="wrap">
+<div class="phone">
+  <div class="sb"><span>9:41</span><div class="sb-r"><div class="bars"><span></span><span></span><span></span></div><div class="batt"><div class="batt-fill"></div></div></div></div>
+  <div class="island"></div>
+  <div class="screen">
+    <div class="sh"><h2>Repositories</h2><p>// @theolarcombe · 142 public</p></div>
+    <div class="sbar">
+      <div class="sc on">★ Stars</div>
+      <div class="sc">Updated</div>
+      <div class="sc">A–Z</div>
+      <div class="sc">Forks</div>
+    </div>
+    <div class="rc"><div class="rct"><div class="rcn">distributed-cache</div></div><div class="rcd">High-performance caching with consistent hashing and TTL eviction</div><div class="rcm"><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M5.5 1l1.3 2.8 3.2.4-2.3 2.2.5 3.1-2.7-1.4-2.7 1.4.5-3.1L.8 4.2l3.2-.4z"/></svg>1.2k</div><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3.5 1v3.5L1.5 7l2 1.5v1.5M7.5 1v3.5L9.5 7l-2 1.5v1.5"/></svg>94</div><div class="dl"><div class="dot" style="background:#3178C6;"></div><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">TypeScript</span></div><div class="rca">2d ago</div></div></div>
+    <div class="rc"><div class="rct"><div class="rcn">rpc-mesh</div></div><div class="rcd">Lightweight gRPC mesh for Node.js with automatic service discovery</div><div class="rcm"><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M5.5 1l1.3 2.8 3.2.4-2.3 2.2.5 3.1-2.7-1.4-2.7 1.4.5-3.1L.8 4.2l3.2-.4z"/></svg>876</div><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3.5 1v3.5L1.5 7l2 1.5v1.5M7.5 1v3.5L9.5 7l-2 1.5v1.5"/></svg>61</div><div class="dl"><div class="dot" style="background:#00ADD8;"></div><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">Go</span></div><div class="rca">1w ago</div></div></div>
+    <div class="rc"><div class="rct"><div class="rcn">stripe-helpers</div><div class="ftag">fork</div></div><div class="rcd">Personal fork with custom retry logic and webhook validation</div><div class="rcm"><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M5.5 1l1.3 2.8 3.2.4-2.3 2.2.5 3.1-2.7-1.4-2.7 1.4.5-3.1L.8 4.2l3.2-.4z"/></svg>0</div><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3.5 1v3.5L1.5 7l2 1.5v1.5M7.5 1v3.5L9.5 7l-2 1.5v1.5"/></svg>0</div><div class="dl"><div class="dot" style="background:#3178C6;"></div><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">TypeScript</span></div><div class="rca">3w ago</div></div></div>
+    <div class="rc"><div class="rct"><div class="rcn">svg-motion</div></div><div class="rcd">Declarative SVG animation — 1.8kb gzipped, zero dependencies</div><div class="rcm"><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M5.5 1l1.3 2.8 3.2.4-2.3 2.2.5 3.1-2.7-1.4-2.7 1.4.5-3.1L.8 4.2l3.2-.4z"/></svg>543</div><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3.5 1v3.5L1.5 7l2 1.5v1.5M7.5 1v3.5L9.5 7l-2 1.5v1.5"/></svg>29</div><div class="dl"><div class="dot" style="background:#e34c26;"></div><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">JavaScript</span></div><div class="rca">1mo ago</div></div></div>
+    <div class="rc"><div class="rct"><div class="rcn">postgres-kit</div></div><div class="rcd">Type-safe Postgres client with schema inference and migrations</div><div class="rcm"><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M5.5 1l1.3 2.8 3.2.4-2.3 2.2.5 3.1-2.7-1.4-2.7 1.4.5-3.1L.8 4.2l3.2-.4z"/></svg>410</div><div class="rcs"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M3.5 1v3.5L1.5 7l2 1.5v1.5M7.5 1v3.5L9.5 7l-2 1.5v1.5"/></svg>38</div><div class="dl"><div class="dot" style="background:#3178C6;"></div><span style="font-family:var(--mono);font-size:10px;color:var(--text3);">TypeScript</span></div><div class="rca">2mo ago</div></div></div>
+    <div style="padding-bottom:90px;"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="8" cy="8" r="5.5"/><path d="m13 13 3.5 3.5"/></svg><div class="nil">Search</div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="9" cy="6" r="3.5"/><path d="M2.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg><div class="nil">Profile</div></div>
+    <div class="ni on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6471E0" stroke-width="1.3"><path d="M2 5h14M2 9h14M2 13h9"/></svg><div class="nil">Repos</div><div class="ndot"></div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="9" cy="9" r="7"/><path d="M9 2v7l3.5 3.5"/></svg><div class="nil">Langs</div></div>
+  </div>
+</div>
+<div class="frame-label">03 — Repositories</div>
+</div>
+
+<!-- ── SCREEN 4: LANGUAGES ── -->
+<div class="wrap">
+<div class="phone">
+  <div class="sb"><span>9:41</span><div class="sb-r"><div class="bars"><span></span><span></span><span></span></div><div class="batt"><div class="batt-fill"></div></div></div></div>
+  <div class="island"></div>
+  <div class="screen">
+    <div class="sh"><h2>Languages</h2><p>// stack analysis · top 10 repos</p></div>
+    <div class="irow">
+      <div class="ibox"><div class="iv">10</div><div class="ik">Repos</div></div>
+      <div class="ibox"><div class="iv">284k</div><div class="ik">Lines</div></div>
+      <div class="ibox"><div class="iv">6</div><div class="ik">Languages</div></div>
+    </div>
+    <div class="dw">
+      <div class="dc">
+        <svg viewBox="0 0 186 186">
+          <circle cx="93" cy="93" r="68" fill="none" stroke="#3178C6" stroke-width="24" stroke-dasharray="247.2 426.9" stroke-dashoffset="106.3" transform="rotate(-90 93 93)"/>
+          <circle cx="93" cy="93" r="68" fill="none" stroke="#00ADD8" stroke-width="24" stroke-dasharray="89.5 584.6" stroke-dashoffset="-140.9" transform="rotate(-90 93 93)"/>
+          <circle cx="93" cy="93" r="68" fill="none" stroke="#3572A5" stroke-width="24" stroke-dasharray="42.6 631.5" stroke-dashoffset="-230.4" transform="rotate(-90 93 93)"/>
+          <circle cx="93" cy="93" r="68" fill="none" stroke="#DEA584" stroke-width="24" stroke-dasharray="25.6 648.5" stroke-dashoffset="-273" transform="rotate(-90 93 93)"/>
+          <circle cx="93" cy="93" r="68" fill="none" stroke="#89e051" stroke-width="24" stroke-dasharray="12.8 661.3" stroke-dashoffset="-298.6" transform="rotate(-90 93 93)"/>
+          <circle cx="93" cy="93" r="68" fill="none" stroke="#2A2A30" stroke-width="24" stroke-dasharray="8.5 665.6" stroke-dashoffset="-311.4" transform="rotate(-90 93 93)"/>
+          <circle cx="93" cy="93" r="52" fill="#0F0F11"/>
+        </svg>
+        <div class="dcc"><div class="dcv">58%</div><div class="dcl">TypeScript</div></div>
+      </div>
+    </div>
+    <div class="div" style="margin-top:0;"></div>
+    <div class="ll">
+      <div class="lr"><div class="lc2" style="background:#3178C6;"></div><div class="ln">TypeScript</div><div class="lb"><div class="lbb"><div class="lbf" style="width:58%;background:#3178C6;"></div></div></div><div class="lp" style="color:#3178C6;">58%</div></div>
+      <div class="lr"><div class="lc2" style="background:#00ADD8;"></div><div class="ln">Go</div><div class="lb"><div class="lbb"><div class="lbf" style="width:21%;background:#00ADD8;"></div></div></div><div class="lp" style="color:#00ADD8;">21%</div></div>
+      <div class="lr"><div class="lc2" style="background:#3572A5;"></div><div class="ln">Python</div><div class="lb"><div class="lbb"><div class="lbf" style="width:10%;background:#3572A5;"></div></div></div><div class="lp" style="color:#3572A5;">10%</div></div>
+      <div class="lr"><div class="lc2" style="background:#DEA584;"></div><div class="ln">Rust</div><div class="lb"><div class="lbb"><div class="lbf" style="width:6%;background:#DEA584;"></div></div></div><div class="lp" style="color:#DEA584;">6%</div></div>
+      <div class="lr"><div class="lc2" style="background:#89e051;"></div><div class="ln">Shell</div><div class="lb"><div class="lbb"><div class="lbf" style="width:3%;background:#89e051;"></div></div></div><div class="lp" style="color:#89e051;">3%</div></div>
+      <div class="lr"><div class="lc2" style="background:#3E3E46;"></div><div class="ln">Other</div><div class="lb"><div class="lbb"><div class="lbf" style="width:2%;background:#3E3E46;"></div></div></div><div class="lp" style="color:var(--text3);">2%</div></div>
+    </div>
+    <div style="padding-bottom:90px;"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="8" cy="8" r="5.5"/><path d="m13 13 3.5 3.5"/></svg><div class="nil">Search</div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="9" cy="6" r="3.5"/><path d="M2.5 17c0-3.5 2.9-6 6.5-6s6.5 2.5 6.5 6"/></svg><div class="nil">Profile</div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><path d="M2 5h14M2 9h14M2 13h9"/></svg><div class="nil">Repos</div></div>
+    <div class="ni on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6471E0" stroke-width="1.3"><circle cx="9" cy="9" r="7"/><path d="M9 2v7l3.5 3.5"/></svg><div class="nil">Langs</div><div class="ndot"></div></div>
+  </div>
+</div>
+<div class="frame-label">04 — Language Insights</div>
+</div>
+
+<!-- ── SCREEN 5: SHORTLISTS ── -->
+<div class="wrap">
+<div class="phone">
+  <div class="sb"><span>9:41</span><div class="sb-r"><div class="bars"><span></span><span></span><span></span></div><div class="batt"><div class="batt-fill"></div></div></div></div>
+  <div class="island"></div>
+  <div class="screen">
+    <div class="sh"><h2>Shortlists</h2><p>// candidate pipeline</p></div>
+    <div class="slbar">
+      <div class="slc">3 active lists</div>
+      <div class="nb"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5.5 1v9M1 5.5h9"/></svg>New List</div>
+    </div>
+    <div class="slcard">
+      <div class="slh"><div class="sli">🏆</div><div class="slt">React Native Finalists</div><div class="sln">4</div></div>
+      <div class="slb"><div class="ma" style="color:#3ECF8E;">TL</div><div class="ma" style="color:#6471E0;">AK</div><div class="ma" style="color:#C9872A;">JM</div><div class="ma" style="color:#7A7A82;">SR</div><div style="flex:1;"></div><div class="slav"><div class="slavk">avg</div><div class="slavv" style="color:var(--green);">78</div></div></div>
+    </div>
+    <div class="slcard">
+      <div class="slh"><div class="sli">📋</div><div class="slt">Senior iOS Pool</div><div class="sln">7</div></div>
+      <div class="slb"><div class="ma" style="color:#6471E0;">KW</div><div class="ma" style="color:#3ECF8E;">PM</div><div class="ma" style="color:#C9872A;">LD</div><div class="more">+4</div><div style="flex:1;"></div><div class="slav"><div class="slavk">avg</div><div class="slavv" style="color:var(--amber);">62</div></div></div>
+    </div>
+    <div class="slcard">
+      <div class="slh"><div class="sli">⚙️</div><div class="slt">Backend Engineers</div><div class="sln">2</div></div>
+      <div class="slb"><div class="ma" style="color:#C9872A;">BR</div><div class="ma" style="color:#3ECF8E;">SN</div><div style="flex:1;"></div><div class="slav"><div class="slavk">avg</div><div class="slavv" style="color:var(--green);">85</div></div></div>
+    </div>
+    <div class="div" style="margin-top:18px;"></div>
+    <div class="mlabel">Bookmarked</div>
+    <div style="padding:0 22px;">
+      <div class="bki"><div class="bka" style="color:#3ECF8E;">TL</div><div><div class="bkn">Theo Larcombe</div><div class="bks">@theolarcombe · TS · London</div></div><div style="font-family:var(--mono);font-size:14px;font-weight:500;color:var(--green);margin-left:auto;">87</div></div>
+      <div class="bki"><div class="bka" style="color:#6471E0;">AK</div><div><div class="bkn">Anika Kallis</div><div class="bks">@anika_builds · TS · Berlin</div></div><div style="font-family:var(--mono);font-size:14px;font-weight:500;color:var(--green);margin-left:auto;">91</div></div>
+    </div>
+    <div style="padding-bottom:90px;"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="8" cy="8" r="5.5"/><path d="m13 13 3.5 3.5"/></svg><div class="nil">Search</div></div>
+    <div class="ni on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6471E0" stroke-width="1.3"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="10" y="2" width="6" height="6" rx="1"/><rect x="2" y="10" width="6" height="6" rx="1"/><rect x="10" y="10" width="6" height="6" rx="1"/></svg><div class="nil">Lists</div><div class="ndot"></div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><path d="M2 9h14M9 2l7 7-7 7"/></svg><div class="nil">Compare</div></div>
+  </div>
+</div>
+<div class="frame-label">05 — Shortlists</div>
+</div>
+
+<!-- ── SCREEN 6: COMPARE ── -->
+<div class="wrap">
+<div class="phone">
+  <div class="sb"><span>9:41</span><div class="sb-r"><div class="bars"><span></span><span></span><span></span></div><div class="batt"><div class="batt-fill"></div></div></div></div>
+  <div class="island"></div>
+  <div class="screen">
+    <div class="sh"><h2>Compare</h2><p>// side-by-side analysis</p></div>
+    <div class="chead">
+      <div class="cside"><div class="cava" style="color:#3ECF8E;">TL</div><div class="chandle">@theolarcombe</div></div>
+      <div class="vs">vs</div>
+      <div class="cside"><div class="cava" style="color:#6471E0;">AK</div><div class="chandle">@anika_builds</div></div>
+    </div>
+    <div class="mrow wl"><div class="mc"><div class="mv gl">87</div><div class="wtag l">winner</div></div><div class="mck">Score</div><div class="mc r"><div class="mv">91</div></div></div>
+    <div class="mrow wr"><div class="mc"><div class="mv">4.2k</div></div><div class="mck">Followers</div><div class="mc r"><div class="mv gr">6.1k</div><div class="wtag r">winner</div></div></div>
+    <div class="mrow wl"><div class="mc"><div class="mv gl">142</div><div class="wtag l">winner</div></div><div class="mck">Repos</div><div class="mc r"><div class="mv">89</div></div></div>
+    <div class="mrow wr"><div class="mc"><div class="mv">2.1k</div></div><div class="mck">Stars</div><div class="mc r"><div class="mv gr">3.8k</div><div class="wtag r">winner</div></div></div>
+    <div class="mrow wl"><div class="mc"><div class="mv gl" style="font-size:13px;">5 repos</div><div class="wtag l">winner</div></div><div class="mck">30d Activity</div><div class="mc r"><div class="mv" style="font-size:13px;">3 repos</div></div></div>
+    <div class="olap">
+      <div class="olk">Shared Languages</div>
+      <div class="olt">
+        <div class="oltag"><div class="dot" style="background:#3178C6;"></div>TypeScript</div>
+        <div class="oltag"><div class="dot" style="background:#00ADD8;"></div>Go</div>
+        <div class="oltag"><div class="dot" style="background:#3572A5;"></div>Python</div>
+      </div>
+    </div>
+    <div class="cacts">
+      <div class="cbt p">Copy Summary</div>
+      <div class="cbt g">Clear</div>
+    </div>
+    <div style="padding-bottom:90px;"></div>
+  </div>
+  <div class="bnav">
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><circle cx="8" cy="8" r="5.5"/><path d="m13 13 3.5 3.5"/></svg><div class="nil">Search</div></div>
+    <div class="ni"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#3E3E46" stroke-width="1.3"><rect x="2" y="2" width="6" height="6" rx="1"/><rect x="10" y="2" width="6" height="6" rx="1"/><rect x="2" y="10" width="6" height="6" rx="1"/><rect x="10" y="10" width="6" height="6" rx="1"/></svg><div class="nil">Lists</div></div>
+    <div class="ni on"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#6471E0" stroke-width="1.3"><path d="M2 9h14M9 2l7 7-7 7"/></svg><div class="nil">Compare</div><div class="ndot"></div></div>
+  </div>
+</div>
+<div class="frame-label">06 — Compare</div>
+</div>
+
+</div>
+
+<div class="pfooter">
+  <div class="fs"><span>GitHub Talent Scout</span><div class="fd"></div><span>6 screens</span><div class="fd"></div><span>React Native · TypeScript</span></div>
+</div>
+
+</body>
+</html>

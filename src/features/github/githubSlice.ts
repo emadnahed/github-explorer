@@ -4,6 +4,7 @@ import { storage } from '@/utils/storage';
 
 const BOOKMARKS_KEY = 'github_bookmarks';
 const HISTORY_KEY = 'github_search_history';
+const NOTES_KEY = 'github_recruiter_notes';
 const MAX_HISTORY = 10;
 
 function loadFromStorage<T>(key: string): T[] {
@@ -14,6 +15,15 @@ function loadFromStorage<T>(key: string): T[] {
     return Array.isArray(parsed) ? (parsed as T[]) : [];
   } catch {
     return [];
+  }
+}
+
+function loadObjectFromStorage<T extends object>(key: string): T {
+  try {
+    const raw = storage.getString(key);
+    return raw ? (JSON.parse(raw) as T) : ({} as T);
+  } catch {
+    return {} as T;
   }
 }
 
@@ -53,6 +63,21 @@ export interface GitHubRepo {
   open_issues_count: number;
 }
 
+export interface GitHubSearchUser {
+  login: string;
+  id: number;
+  avatar_url: string;
+  html_url: string;
+  score: number;
+  type: string;
+}
+
+export interface SearchFilters {
+  language: string;
+  location: string;
+  minFollowers: string;
+}
+
 export type RepoSort = 'stars' | 'updated' | 'name';
 
 interface GitHubState {
@@ -69,6 +94,11 @@ interface GitHubState {
   languagesLoading: boolean;
   languagesError: string | null;
   bookmarks: string[];
+  recruiterNotes: Record<string, string>;
+  searchResults: GitHubSearchUser[];
+  searchResultsLoading: boolean;
+  searchResultsError: string | null;
+  searchFilters: SearchFilters;
 }
 
 const initialState: GitHubState = {
@@ -85,6 +115,11 @@ const initialState: GitHubState = {
   languagesLoading: false,
   languagesError: null,
   bookmarks: loadFromStorage<string>(BOOKMARKS_KEY),
+  recruiterNotes: loadObjectFromStorage<Record<string, string>>(NOTES_KEY),
+  searchResults: [],
+  searchResultsLoading: false,
+  searchResultsError: null,
+  searchFilters: { language: '', location: '', minFollowers: '' },
 };
 
 export const fetchUser = createAsyncThunk(
@@ -115,6 +150,26 @@ export const fetchLanguages = createAsyncThunk(
     try {
       const state = getState() as { github: GitHubState };
       return await githubService.getAggregatedLanguages(username, state.github.repos);
+    } catch (err) {
+      return rejectWithValue((err as Error).message);
+    }
+  },
+);
+
+export const fetchUserSearch = createAsyncThunk(
+  'github/fetchUserSearch',
+  async (
+    { query, filters }: { query: string; filters: SearchFilters },
+    { rejectWithValue },
+  ) => {
+    try {
+      const parts: string[] = [];
+      if (query.trim()) parts.push(query.trim());
+      if (filters.language) parts.push(`language:${filters.language}`);
+      if (filters.location) parts.push(`location:${filters.location}`);
+      if (filters.minFollowers) parts.push(`followers:>=${filters.minFollowers}`);
+      if (parts.length === 0) parts.push('type:user');
+      return await githubService.searchUsers(parts.join(' '));
     } catch (err) {
       return rejectWithValue((err as Error).message);
     }
@@ -161,6 +216,22 @@ const githubSlice = createSlice({
       state.reposError = null;
       state.languagesError = null;
     },
+    setNote(state, action: PayloadAction<{ username: string; note: string }>) {
+      const key = action.payload.username.toLowerCase();
+      if (action.payload.note.trim()) {
+        state.recruiterNotes[key] = action.payload.note.trim();
+      } else {
+        delete state.recruiterNotes[key];
+      }
+      storage.set(NOTES_KEY, JSON.stringify(state.recruiterNotes));
+    },
+    setSearchFilters(state, action: PayloadAction<SearchFilters>) {
+      state.searchFilters = action.payload;
+    },
+    clearSearchResults(state) {
+      state.searchResults = [];
+      state.searchResultsError = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -202,6 +273,18 @@ const githubSlice = createSlice({
       .addCase(fetchLanguages.rejected, (state, action) => {
         state.languagesLoading = false;
         state.languagesError = action.payload as string;
+      })
+      .addCase(fetchUserSearch.pending, (state) => {
+        state.searchResultsLoading = true;
+        state.searchResultsError = null;
+      })
+      .addCase(fetchUserSearch.fulfilled, (state, action) => {
+        state.searchResultsLoading = false;
+        state.searchResults = action.payload;
+      })
+      .addCase(fetchUserSearch.rejected, (state, action) => {
+        state.searchResultsLoading = false;
+        state.searchResultsError = action.payload as string;
       });
   },
 });
@@ -213,6 +296,9 @@ export const {
   addToHistory,
   clearHistory,
   clearUserData,
+  setNote,
+  setSearchFilters,
+  clearSearchResults,
 } = githubSlice.actions;
 
 export default githubSlice.reducer;

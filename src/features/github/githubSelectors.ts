@@ -55,3 +55,11 @@ export const selectIsBookmarked = (username: string) =>
   createSelector(selectBookmarks, (bookmarks) =>
     bookmarks.includes(username.toLowerCase()),
   );
+
+export const selectSearchResults = (state: RootState) => state.github.searchResults;
+export const selectSearchFilters = (state: RootState) => state.github.searchFilters;
+
+export const selectRecruiterNote =
+  (username: string) =>
+  (state: RootState): string =>
+    state.github.recruiterNotes[username.toLowerCase()] ?? '';

@@ -1,18 +1,30 @@
-import React, { useCallback } from 'react';
-import { View, ScrollView, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { ProfileHeader } from '@/components/ProfileHeader';
 import { StatsCard } from '@/components/StatsCard';
 import { SkeletonLoader } from '@/components/SkeletonLoader';
+import { DeveloperScore } from '@/components/DeveloperScore';
 import { useTheme } from '@/hooks/useTheme';
+import { setNote } from './githubSlice';
+import { selectRecruiterNote } from './githubSelectors';
 import type { ProfileTabParamList } from '@/navigation/ProfileNavigator';
 
 type Props = BottomTabScreenProps<ProfileTabParamList, 'Profile'>;
 
 export function ProfileScreen({ route }: Props) {
   const colors = useTheme();
-  const { currentUser, userLoading, userError } = useAppSelector((state) => state.github);
+  const { currentUser, userLoading, userError, repos, reposLoading } = useAppSelector(
+    (state) => state.github,
+  );
 
   if (userLoading) {
     return (
@@ -38,6 +50,10 @@ export function ProfileScreen({ route }: Props) {
       showsVerticalScrollIndicator={false}
     >
       <ProfileHeader user={currentUser} />
+
+      {!reposLoading && repos.length > 0 && (
+        <DeveloperScore user={currentUser} repos={repos} />
+      )}
 
       <View style={[styles.divider, { backgroundColor: colors.border }]} />
 
@@ -74,8 +90,68 @@ export function ProfileScreen({ route }: Props) {
         </View>
       )}
 
+      <RecruiterNotes username={currentUser.login} />
+
       <View style={styles.bottomPad} />
     </ScrollView>
+  );
+}
+
+function RecruiterNotes({ username }: { username: string }) {
+  const dispatch = useAppDispatch();
+  const colors = useTheme();
+  const storedNote = useAppSelector(selectRecruiterNote(username));
+  const [text, setText] = useState(storedNote);
+  const [saved, setSaved] = useState(false);
+  const prevUsernameRef = useRef(username);
+
+  useEffect(() => {
+    if (prevUsernameRef.current !== username) {
+      prevUsernameRef.current = username;
+      setText(storedNote);
+      setSaved(false);
+    }
+  }, [username, storedNote]);
+
+  const handleSave = useCallback(() => {
+    dispatch(setNote({ username, note: text }));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }, [dispatch, username, text]);
+
+  return (
+    <View style={styles.notesSection}>
+      <Text style={[styles.notesTitle, { color: colors.textSecondary }]}>Recruiter Notes</Text>
+      <TextInput
+        style={[
+          styles.notesInput,
+          {
+            backgroundColor: colors.inputBg,
+            borderColor: colors.border,
+            color: colors.text,
+          },
+        ]}
+        placeholder="Add private notes about this candidate..."
+        placeholderTextColor={colors.textMuted}
+        multiline
+        textAlignVertical="top"
+        value={text}
+        onChangeText={(v) => {
+          setText(v);
+          setSaved(false);
+        }}
+      />
+      <TouchableOpacity
+        style={[
+          styles.saveBtn,
+          { backgroundColor: saved ? colors.accentGreen : colors.accent },
+        ]}
+        onPress={handleSave}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.saveBtnText}>{saved ? 'Saved!' : 'Save Note'}</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -103,5 +179,36 @@ const styles = StyleSheet.create({
   },
   gistLabel: { fontSize: 14, fontWeight: '500' },
   gistCount: { fontSize: 16, fontWeight: '700' },
-  bottomPad: { height: 24 },
+  notesSection: {
+    marginHorizontal: 20,
+    marginTop: 16,
+  },
+  notesTitle: {
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.6,
+    marginBottom: 10,
+  },
+  notesInput: {
+    borderWidth: 1,
+    borderRadius: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 14,
+    lineHeight: 20,
+    minHeight: 96,
+  },
+  saveBtn: {
+    marginTop: 8,
+    paddingVertical: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  saveBtnText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  bottomPad: { height: 32 },
 });

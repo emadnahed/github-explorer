@@ -26,4 +26,7 @@ export const githubApi = {
 
   fetchRepoLanguages: (owner: string, repo: string) =>
     apiClient.get(`/repos/${owner}/${repo}/languages`),
+
+  searchUsers: (query: string, page = 1) =>
+    apiClient.get('/search/users', { params: { q: query, per_page: 20, page } }),
 };

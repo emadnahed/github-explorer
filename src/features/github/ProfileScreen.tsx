@@ -113,10 +113,15 @@ function RecruiterNotes({ username }: { username: string }) {
     }
   }, [username, storedNote]);
 
+  useEffect(() => {
+    if (!saved) return;
+    const timerId = setTimeout(() => setSaved(false), 2000);
+    return () => clearTimeout(timerId);
+  }, [saved]);
+
   const handleSave = useCallback(() => {
     dispatch(setNote({ username, note: text }));
     setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
   }, [dispatch, username, text]);
 
   return (

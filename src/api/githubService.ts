@@ -2,6 +2,11 @@ import { githubApi } from './githubApi';
 import { storage } from '@/utils/storage';
 import type { GitHubUser, GitHubRepo, GitHubSearchUser } from '@/features/github/githubSlice';
 
+interface GitHubUserSearchResponse {
+  total_count: number;
+  items: GitHubSearchUser[];
+}
+
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour
 
 function cacheKey(type: string, username: string): string {
@@ -74,7 +79,7 @@ class GitHubService {
 
   async searchUsers(query: string): Promise<GitHubSearchUser[]> {
     const { data } = await githubApi.searchUsers(query);
-    return (data as { total_count: number; items: GitHubSearchUser[] }).items;
+    return (data as GitHubUserSearchResponse).items;
   }
 
   clearUserCache(username: string): void {

@@ -114,6 +114,13 @@ export function SearchScreen({ navigation }: Props) {
     [dispatch],
   );
 
+  const handleFiltersChange = useCallback(
+    (f: typeof searchFilters) => {
+      dispatch(setSearchFilters(f));
+    },
+    [dispatch],
+  );
+
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Mode toggle */}
@@ -252,7 +259,7 @@ export function SearchScreen({ navigation }: Props) {
 
           <FilterPanel
             filters={searchFilters}
-            onChange={(f) => dispatch(setSearchFilters(f))}
+            onChange={handleFiltersChange}
             onApply={handleTalentSearch}
           />
 
@@ -325,7 +332,7 @@ function ModeTab({
   colors,
 }: {
   label: string;
-  icon: string;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
   active: boolean;
   onPress: () => void;
   colors: AppColors;
@@ -340,7 +347,7 @@ function ModeTab({
       activeOpacity={0.7}
     >
       <Ionicons
-        name={icon as any}
+        name={icon}
         size={15}
         color={active ? colors.accent : colors.textSecondary}
       />

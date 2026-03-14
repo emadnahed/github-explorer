@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+# Design files
+github-talent-scout-screens.html
+
 # Xcode
 #
 build/

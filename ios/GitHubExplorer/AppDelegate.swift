@@ -37,7 +37,7 @@ class AppDelegate: ExpoAppDelegate {
     open url: URL,
     options: [UIApplication.OpenURLOptionsKey: Any] = [:]
   ) -> Bool {
-    return super.application(app, open: url, options: options) || RCTLinkingManager.application(app, open: url, options: options)
+    return RCTLinkingManager.application(app, open: url, options: options) || super.application(app, open: url, options: options)
   }
 
   // Universal Links
@@ -47,7 +47,7 @@ class AppDelegate: ExpoAppDelegate {
     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void
   ) -> Bool {
     let result = RCTLinkingManager.application(application, continue: userActivity, restorationHandler: restorationHandler)
-    return super.application(application, continue: userActivity, restorationHandler: restorationHandler) || result
+    return result || super.application(application, continue: userActivity, restorationHandler: restorationHandler)
   }
 }
 

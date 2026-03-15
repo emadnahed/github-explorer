@@ -18,7 +18,11 @@
     "setup:ios": "npm run clean:ios && npm install && npx expo prebuild --clean --platform ios",
     "setup:ios:device": "npm run setup:ios && npx expo run:ios --device",
     "setup:android": "npm run clean:android && npm install && npx expo prebuild --clean --platform android && cd android && ./gradlew clean && cd ..",
-    "setup:android:device": "npm run setup:android && npx expo run:android --device"
+    "setup:android:device": "npm run setup:android && npx expo run:android --device",
+    "build:e2e:ios": "detox build --configuration ios.sim.debug",
+    "build:e2e:android": "detox build --configuration android.emu.debug",
+    "test:e2e:ios": "detox test --configuration ios.sim.debug",
+    "test:e2e:android": "detox test --configuration android.emu.debug"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.3.10",
@@ -41,14 +45,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@testing-library/react-native": "^13.3.3",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.2.2",
+    "babel-jest": "^29.7.0",
     "babel-plugin-module-resolver": "^5.0.2",
-    "typescript": "~5.9.2",
+    "detox": "^20.47.0",
     "jest": "^29.7.0",
     "jest-expo": "~55.0.9",
-    "@testing-library/react-native": "^13.3.3",
-    "babel-jest": "^29.7.0",
-    "react-test-renderer": "19.2.4"
+    "react-test-renderer": "19.2.4",
+    "typescript": "~5.9.2"
   },
   "jest": {
     "preset": "jest-expo",

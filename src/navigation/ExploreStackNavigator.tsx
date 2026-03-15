@@ -2,7 +2,7 @@ import React from 'react';
 import { useColorScheme } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SearchScreen } from '@/features/github/SearchScreen';
-import { ProfileNavigator } from './ProfileNavigator';
+import { ProfileTabsScreen } from '@/features/github/ProfileTabsScreen';
 import { Colors } from '@/utils/theme';
 
 export type ExploreStackParamList = {
@@ -34,7 +34,7 @@ export function ExploreStackNavigator() {
       />
       <Stack.Screen
         name="ProfileTabs"
-        component={ProfileNavigator}
+        component={ProfileTabsScreen}
         options={{ title: '' }}
       />
     </Stack.Navigator>

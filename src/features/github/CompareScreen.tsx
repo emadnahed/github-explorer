@@ -78,7 +78,7 @@ export function CompareScreen({ navigation }: Props) {
 
   if (compareList.length < 2) {
     return (
-      <View style={[styles.emptyContainer, { backgroundColor: colors.background }]}>
+      <View testID="compare-empty-state" style={[styles.emptyContainer, { backgroundColor: colors.background }]}>
         <Ionicons name="swap-horizontal-outline" size={56} color={colors.textMuted} />
         <Text style={[styles.emptyTitle, { color: colors.text }]}>Compare Candidates</Text>
         <Text style={[styles.emptyBody, { color: colors.textSecondary }]}>
@@ -110,6 +110,7 @@ export function CompareScreen({ navigation }: Props) {
 
   return (
     <ScrollView
+      testID="compare-scroll"
       style={[styles.container, { backgroundColor: colors.background }]}
       showsVerticalScrollIndicator={false}
     >
@@ -119,6 +120,7 @@ export function CompareScreen({ navigation }: Props) {
           SIDE-BY-SIDE COMPARISON
         </Text>
         <TouchableOpacity
+          testID="compare-clear-btn"
           onPress={() => dispatch(clearCompareList())}
           style={[styles.clearBtn, { borderColor: colors.border }]}
         >

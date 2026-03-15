@@ -30,7 +30,7 @@ export function ShortlistsScreen({ route, navigation }: Props) {
   const shortlists = useAppSelector(selectShortlists);
   const compareList = useAppSelector(selectCompareList);
 
-  const addUsername = route.params.addUsername;
+  const addUsername = route.params?.addUsername;
   const [newName, setNewName] = useState('');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
@@ -48,6 +48,7 @@ export function ShortlistsScreen({ route, navigation }: Props) {
     setExpanded((prev) => new Set(prev).add(name));
     if (addUsername) {
       dispatch(addToShortlist({ name, username: addUsername }));
+      navigation.setParams({ addUsername: undefined });
       navigation.goBack();
     }
   };
@@ -82,11 +83,12 @@ export function ShortlistsScreen({ route, navigation }: Props) {
   const handleAddToShortlist = (name: string) => {
     if (!addUsername) return;
     dispatch(addToShortlist({ name, username: addUsername }));
+    navigation.setParams({ addUsername: undefined });
     navigation.goBack();
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View testID="shortlists-screen" style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Add-mode banner */}
       {addUsername && (
         <View
@@ -106,6 +108,7 @@ export function ShortlistsScreen({ route, navigation }: Props) {
       {/* New shortlist input */}
       <View style={[styles.inputRow, { borderBottomColor: colors.border }]}>
         <TextInput
+          testID="shortlist-name-input"
           style={[
             styles.input,
             {
@@ -122,6 +125,7 @@ export function ShortlistsScreen({ route, navigation }: Props) {
           returnKeyType="done"
         />
         <TouchableOpacity
+          testID="shortlist-add-btn"
           style={[
             styles.addBtn,
             { backgroundColor: colors.accent, opacity: newName.trim() ? 1 : 0.4 },
@@ -136,7 +140,7 @@ export function ShortlistsScreen({ route, navigation }: Props) {
 
       {/* Empty state */}
       {shortlistNames.length === 0 ? (
-        <View style={styles.emptyState}>
+        <View testID="shortlist-empty-state" style={styles.emptyState}>
           <Ionicons name="list-outline" size={52} color={colors.textMuted} />
           <Text style={[styles.emptyTitle, { color: colors.text }]}>No Shortlists Yet</Text>
           <Text style={[styles.emptyBody, { color: colors.textSecondary }]}>
@@ -147,6 +151,7 @@ export function ShortlistsScreen({ route, navigation }: Props) {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
         >
           {shortlistNames.map((name) => {
             const members = shortlists[name];
@@ -156,35 +161,29 @@ export function ShortlistsScreen({ route, navigation }: Props) {
             return (
               <View
                 key={name}
+                testID={`shortlist-card-${name}`}
                 style={[
                   styles.shortlistCard,
                   { backgroundColor: colors.surface, borderColor: colors.border },
                 ]}
               >
-                {/* Card header row */}
-                <TouchableOpacity
-                  style={styles.cardHeader}
-                  onPress={() => (addUsername ? handleAddToShortlist(name) : toggleExpand(name))}
-                  activeOpacity={0.7}
-                >
-                  <View style={styles.cardHeaderLeft}>
-                    {!addUsername && (
-                      <Ionicons
-                        name={isExpanded ? 'chevron-down' : 'chevron-forward'}
-                        size={16}
-                        color={colors.textMuted}
-                      />
-                    )}
-                    <View>
-                      <Text style={[styles.shortlistName, { color: colors.text }]}>{name}</Text>
-                      <Text style={[styles.memberCount, { color: colors.textSecondary }]}>
-                        {members.length} {members.length === 1 ? 'member' : 'members'}
-                      </Text>
+                {/* Card header row — add-mode uses a single touchable; normal mode uses
+                    sibling touchables to avoid nested TouchableOpacity on iOS. */}
+                {addUsername ? (
+                  <TouchableOpacity
+                    style={styles.cardHeader}
+                    onPress={() => handleAddToShortlist(name)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.cardHeaderLeft}>
+                      <View>
+                        <Text style={[styles.shortlistName, { color: colors.text }]}>{name}</Text>
+                        <Text style={[styles.memberCount, { color: colors.textSecondary }]}>
+                          {members.length} {members.length === 1 ? 'member' : 'members'}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-
-                  <View style={styles.cardHeaderRight}>
-                    {addUsername ? (
+                    <View style={styles.cardHeaderRight}>
                       <View
                         style={[
                           styles.addTag,
@@ -205,20 +204,42 @@ export function ShortlistsScreen({ route, navigation }: Props) {
                           {alreadyAdded ? 'Added ✓' : '+ Add'}
                         </Text>
                       </View>
-                    ) : (
+                    </View>
+                  </TouchableOpacity>
+                ) : (
+                  <View style={styles.cardHeader}>
+                    <TouchableOpacity
+                      style={styles.cardHeaderLeft}
+                      onPress={() => toggleExpand(name)}
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons
+                        name={isExpanded ? 'chevron-down' : 'chevron-forward'}
+                        size={16}
+                        color={colors.textMuted}
+                      />
+                      <View>
+                        <Text style={[styles.shortlistName, { color: colors.text }]}>{name}</Text>
+                        <Text style={[styles.memberCount, { color: colors.textSecondary }]}>
+                          {members.length} {members.length === 1 ? 'member' : 'members'}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                    <View style={styles.cardHeaderRight}>
                       <TouchableOpacity
+                        testID={`shortlist-delete-btn-${name}`}
                         onPress={() => handleDelete(name)}
                         hitSlop={{ top: 8, bottom: 8, left: 12, right: 8 }}
                       >
                         <Ionicons name="trash-outline" size={16} color={colors.error} />
                       </TouchableOpacity>
-                    )}
+                    </View>
                   </View>
-                </TouchableOpacity>
+                )}
 
                 {/* Expanded members list */}
                 {isExpanded && !addUsername && (
-                  <View style={[styles.membersList, { borderTopColor: colors.border }]}>
+                  <View testID={`shortlist-members-${name}`} style={[styles.membersList, { borderTopColor: colors.border }]}>
                     {members.length === 0 ? (
                       <Text style={[styles.noMembers, { color: colors.textMuted }]}>
                         No members yet. Browse profiles and tap the list icon to add.

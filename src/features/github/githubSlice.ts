@@ -5,6 +5,7 @@ import { storage } from '@/utils/storage';
 const BOOKMARKS_KEY = 'github_bookmarks';
 const HISTORY_KEY = 'github_search_history';
 const NOTES_KEY = 'github_recruiter_notes';
+const SHORTLISTS_KEY = 'github_shortlists';
 const MAX_HISTORY = 10;
 
 function loadFromStorage<T>(key: string): T[] {
@@ -95,6 +96,8 @@ interface GitHubState {
   languagesError: string | null;
   bookmarks: string[];
   recruiterNotes: Record<string, string>;
+  shortlists: Record<string, string[]>;
+  compareList: string[];
   searchResults: GitHubSearchUser[];
   searchResultsLoading: boolean;
   searchResultsError: string | null;
@@ -116,6 +119,8 @@ const initialState: GitHubState = {
   languagesError: null,
   bookmarks: loadFromStorage<string>(BOOKMARKS_KEY),
   recruiterNotes: loadObjectFromStorage<Record<string, string>>(NOTES_KEY),
+  shortlists: loadObjectFromStorage<Record<string, string[]>>(SHORTLISTS_KEY),
+  compareList: [],
   searchResults: [],
   searchResultsLoading: false,
   searchResultsError: null,
@@ -232,6 +237,45 @@ const githubSlice = createSlice({
       state.searchResults = [];
       state.searchResultsError = null;
     },
+    createShortlist(state, action: PayloadAction<string>) {
+      const name = action.payload.trim();
+      if (!name || state.shortlists[name] !== undefined) return;
+      state.shortlists[name] = [];
+      storage.set(SHORTLISTS_KEY, JSON.stringify(state.shortlists));
+    },
+    deleteShortlist(state, action: PayloadAction<string>) {
+      delete state.shortlists[action.payload];
+      storage.set(SHORTLISTS_KEY, JSON.stringify(state.shortlists));
+    },
+    addToShortlist(state, action: PayloadAction<{ name: string; username: string }>) {
+      const { name, username } = action.payload;
+      const uname = username.toLowerCase();
+      if (!state.shortlists[name]) return;
+      if (!state.shortlists[name].includes(uname)) {
+        state.shortlists[name].push(uname);
+        storage.set(SHORTLISTS_KEY, JSON.stringify(state.shortlists));
+      }
+    },
+    removeFromShortlist(state, action: PayloadAction<{ name: string; username: string }>) {
+      const { name, username } = action.payload;
+      if (!state.shortlists[name]) return;
+      state.shortlists[name] = state.shortlists[name].filter(
+        (u) => u !== username.toLowerCase(),
+      );
+      storage.set(SHORTLISTS_KEY, JSON.stringify(state.shortlists));
+    },
+    toggleCompare(state, action: PayloadAction<string>) {
+      const username = action.payload.toLowerCase();
+      const idx = state.compareList.indexOf(username);
+      if (idx >= 0) {
+        state.compareList.splice(idx, 1);
+      } else if (state.compareList.length < 2) {
+        state.compareList.push(username);
+      }
+    },
+    clearCompareList(state) {
+      state.compareList = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -299,6 +343,12 @@ export const {
   setNote,
   setSearchFilters,
   clearSearchResults,
+  createShortlist,
+  deleteShortlist,
+  addToShortlist,
+  removeFromShortlist,
+  toggleCompare,
+  clearCompareList,
 } = githubSlice.actions;
 
 export default githubSlice.reducer;

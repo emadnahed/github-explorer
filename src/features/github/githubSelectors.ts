@@ -63,3 +63,9 @@ export const selectRecruiterNote =
   (username: string) =>
   (state: RootState): string =>
     state.github.recruiterNotes[username.toLowerCase()] ?? '';
+
+export const selectShortlists = (state: RootState) => state.github.shortlists;
+export const selectCompareList = (state: RootState) => state.github.compareList;
+
+export const selectIsInCompare = (username: string) =>
+  createSelector(selectCompareList, (list) => list.includes(username.toLowerCase()));

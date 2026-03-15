@@ -26,9 +26,9 @@ import { SearchBar } from '@/components/SearchBar';
 import { useTheme } from '@/hooks/useTheme';
 import { formatNumber } from '@/utils/helpers';
 import { apiClient } from '@/api/githubApi';
-import type { RootStackParamList } from '@/navigation/RootNavigator';
+import type { ExploreStackParamList } from '@/navigation/ExploreStackNavigator';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Search'>;
+type Props = NativeStackScreenProps<ExploreStackParamList, 'Search'>;
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

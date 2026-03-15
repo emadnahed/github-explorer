@@ -83,6 +83,11 @@ const EXPLORE_TOPICS: Array<{
   { label: 'Security', icon: 'shield-checkmark-outline', color: '#FF3B30' },
 ];
 
+const TRENDING_DEVS_URL =
+  '/search/users?q=followers:>50000&sort=followers&order=desc&per_page=8';
+const TRENDING_REPOS_URL =
+  '/search/repositories?q=stars:>100000&sort=stars&order=desc&per_page=8';
+
 const GITHUB_STATS: Array<{
   icon: React.ComponentProps<typeof Ionicons>['name'];
   label: string;
@@ -120,19 +125,15 @@ export function SearchScreen({ navigation }: Props) {
       setTrendingLoading(true);
       try {
         const [devsRes, reposRes] = await Promise.all([
-          apiClient.get(
-            '/search/users?q=followers:>50000&sort=followers&order=desc&per_page=8',
-          ),
-          apiClient.get(
-            '/search/repositories?q=stars:>100000&sort=stars&order=desc&per_page=8',
-          ),
+          apiClient.get(TRENDING_DEVS_URL),
+          apiClient.get(TRENDING_REPOS_URL),
         ]);
         if (!cancelled) {
           setTrendingDevs((devsRes.data.items as TrendingUser[]) ?? []);
           setTrendingRepos((reposRes.data.items as TrendingRepo[]) ?? []);
         }
-      } catch {
-        // fail silently — trending is decorative
+      } catch (error) {
+        console.error('Failed to load trending data:', error);
       } finally {
         if (!cancelled) setTrendingLoading(false);
       }
@@ -311,7 +312,11 @@ export function SearchScreen({ navigation }: Props) {
         <Section title="Explore by Topic">
           <View style={styles.topicWrap}>
             {EXPLORE_TOPICS.map((topic) => (
-              <TopicChip key={topic.label} topic={topic} />
+              <TopicChip
+                  key={topic.label}
+                  topic={topic}
+                  onPress={() => setLocalQuery(topic.label)}
+                />
             ))}
           </View>
         </Section>
@@ -418,10 +423,18 @@ function TrendingRepoCard({ repo }: { repo: TrendingRepo }) {
   );
 }
 
-function TopicChip({ topic }: { topic: (typeof EXPLORE_TOPICS)[number] }) {
+function TopicChip({
+  topic,
+  onPress,
+}: {
+  topic: (typeof EXPLORE_TOPICS)[number];
+  onPress: () => void;
+}) {
   const colors = useTheme();
   return (
-    <View
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
       style={[
         styles.topicChip,
         { backgroundColor: colors.surface, borderColor: colors.border },
@@ -429,7 +442,7 @@ function TopicChip({ topic }: { topic: (typeof EXPLORE_TOPICS)[number] }) {
     >
       <Ionicons name={topic.icon} size={14} color={topic.color} />
       <Text style={[styles.topicLabel, { color: colors.text }]}>{topic.label}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

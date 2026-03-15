@@ -2,13 +2,14 @@ import React from 'react';
 import { useColorScheme } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { ExploreStackNavigator } from './ExploreStackNavigator';
+import type { NavigatorScreenParams } from '@react-navigation/native';
+import { ExploreStackNavigator, type ExploreStackParamList } from './ExploreStackNavigator';
 import { ShortlistsScreen } from '@/features/github/ShortlistsScreen';
 import { CompareScreen } from '@/features/github/CompareScreen';
 import { Colors } from '@/utils/theme';
 
 export type HomeTabParamList = {
-  Explore: undefined;
+  Explore: NavigatorScreenParams<ExploreStackParamList>;
   Shortlists: { addUsername?: string };
   Compare: undefined;
 };

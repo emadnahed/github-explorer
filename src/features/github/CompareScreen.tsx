@@ -21,7 +21,7 @@ import type { HomeTabParamList } from '@/navigation/HomeTabNavigator';
 type Props = BottomTabScreenProps<HomeTabParamList, 'Compare'>;
 
 interface UserData {
-  user: GitHubUser;
+  user: GitHubUser | null;
   repos: GitHubRepo[];
   loading: boolean;
   error: string | null;
@@ -35,6 +35,7 @@ export function CompareScreen({ navigation }: Props) {
   const fetchedRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
+    let isMounted = true;
     const toFetch = compareList.filter((u) => !fetchedRef.current.has(u));
     if (toFetch.length === 0) return;
 
@@ -42,22 +43,24 @@ export function CompareScreen({ navigation }: Props) {
       fetchedRef.current.add(username);
       setUserData((prev) => ({
         ...prev,
-        [username]: { user: null as unknown as GitHubUser, repos: [], loading: true, error: null },
+        [username]: { user: null, repos: [], loading: true, error: null },
       }));
 
       Promise.all([githubService.getUser(username), githubService.getRepos(username)])
         .then(([user, repos]) => {
+          if (!isMounted) return;
           setUserData((prev) => ({
             ...prev,
             [username]: { user, repos, loading: false, error: null },
           }));
         })
         .catch((err) => {
+          if (!isMounted) return;
           fetchedRef.current.delete(username);
           setUserData((prev) => ({
             ...prev,
             [username]: {
-              user: null as unknown as GitHubUser,
+              user: null,
               repos: [],
               loading: false,
               error: (err as Error).message,
@@ -65,6 +68,10 @@ export function CompareScreen({ navigation }: Props) {
           }));
         });
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [compareList]);
 
   const anyLoading = compareList.some((u) => userData[u]?.loading);
@@ -81,7 +88,7 @@ export function CompareScreen({ navigation }: Props) {
         </Text>
         <TouchableOpacity
           style={[styles.browseBtn, { backgroundColor: colors.accent }]}
-          onPress={() => navigation.navigate('Explore')}
+          onPress={() => navigation.navigate('Explore', { screen: 'Search' })}
           activeOpacity={0.8}
         >
           <Text style={styles.browseBtnText}>Browse Developers</Text>
@@ -125,7 +132,7 @@ export function CompareScreen({ navigation }: Props) {
         {compareList.map((username) => {
           const data = userData[username];
 
-          if (!data?.user) {
+          if (!data || !data.user) {
             return (
               <View
                 key={username}
@@ -144,13 +151,17 @@ export function CompareScreen({ navigation }: Props) {
             );
           }
 
+          const { user, repos } = data;
           return (
             <CompareCard
               key={username}
-              user={data.user}
-              repos={data.repos}
+              user={user}
+              repos={repos}
               onViewProfile={() =>
-                (navigation as any).navigate('ProfileTabs', { username: data.user.login })
+                navigation.navigate('Explore', {
+                  screen: 'ProfileTabs',
+                  params: { username: user.login },
+                })
               }
               onRemove={() => dispatch(toggleCompare(username))}
             />

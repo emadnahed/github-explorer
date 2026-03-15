@@ -234,7 +234,10 @@ export function ShortlistsScreen({ route, navigation }: Props) {
                             <TouchableOpacity
                               style={styles.memberName}
                               onPress={() =>
-                                (navigation as any).navigate('ProfileTabs', { username })
+                                navigation.navigate('Explore', {
+                                  screen: 'ProfileTabs',
+                                  params: { username },
+                                })
                               }
                             >
                               <Ionicons

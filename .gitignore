@@ -91,6 +91,7 @@ yarn-error.*
 # local env files
 .env*.local
 .env
+ios/.xcode.env.local
 
 # typescript
 *.tsbuildinfo

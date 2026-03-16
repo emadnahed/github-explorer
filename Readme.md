@@ -5,13 +5,9 @@
 ## 📱 Download
 
 <!-- APK/IPA Links -->
-[![Android APK](https://drive.google.com/file/d/19KlkCcqaPCVAbHtpqFfj92FyKMJ7zLKN/view?usp=sharing)](#)
-[![iOS IPA](https://drive.google.com/file/d/19pVhwOW0c1JMkULStF8jA5CjSCxJQXF_/view?usp=sharing)](#)
+[![Android APK](https://img.shields.io/badge/Download-Android_APK-3DDC84?logo=android&logoColor=white&style=for-the-badge)](https://drive.google.com/file/d/19KlkCcqaPCVAbHtpqFfj92FyKMJ7zLKN/view?usp=sharing)
+[![iOS IPA](https://img.shields.io/badge/Download-iOS_IPA-000000?logo=apple&logoColor=white&style=for-the-badge)](https://drive.google.com/file/d/19pVhwOW0c1JMkULStF8jA5CjSCxJQXF_/view?usp=sharing)
 
-<!-- App Screenshots -->
-## 📸 Screenshots
-
-<!-- Add your app screenshots here -->
 
 ## ✨ Features
 
@@ -91,6 +87,12 @@ Uses GitHub Public REST API:
 - **React.memo**, **useMemo**, **useCallback** optimizations
 - **MMKV** caching with 1-hour TTL
 - **GitHub avatar** caching
+
+<!-- App Screenshots -->
+## 📸 Screenshots
+<img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/c6c36a95-4aa4-4dd8-bb1d-bf5f81b21df7" /> <img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/12c8d20e-6b50-4d59-8469-661a28d99e5d" /> <img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/1b15e8b6-abcd-46b4-8d6b-ccb8feb4c261" /> <img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/be1655f6-6c20-4bd5-bed5-1365c05d2c01" />
+
+<!-- Add your app screenshots here -->
 
 ## 📜 License
 

@@ -6,8 +6,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { ProfileHeader } from '@/components/ProfileHeader';
@@ -43,18 +41,16 @@ export function ProfileScreen() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
     <ScrollView
       testID="profile-scroll"
       style={styles.scrollFill}
       showsVerticalScrollIndicator={false}
       keyboardDismissMode="on-drag"
+      automaticallyAdjustKeyboardInsets
     >
       <ProfileHeader user={currentUser} />
-
+      <View style={{ marginVertical: 10 }} />
       {!reposLoading && repos.length > 0 && (
         <DeveloperScore user={currentUser} repos={repos} />
       )}
@@ -98,7 +94,7 @@ export function ProfileScreen() {
 
       <View style={styles.bottomPad} />
     </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

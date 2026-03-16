@@ -28,6 +28,7 @@ export function ProfileTabsScreen({ route, navigation }: Props) {
   const dispatch = useAppDispatch();
 
   const [activeTab, setActiveTab] = useState<Tab>('Profile');
+  const [tabBarWidth, setTabBarWidth] = useState(0);
   const indicatorAnim = useRef(new Animated.Value(0)).current;
 
   const bookmarks = useAppSelector((state) => state.github.bookmarks);
@@ -109,16 +110,19 @@ export function ProfileTabsScreen({ route, navigation }: Props) {
     dispatch,
   ]);
 
-  const tabWidth = `${100 / TABS.length}%` as const;
+  const tabWidth = tabBarWidth / TABS.length;
   const translateX = indicatorAnim.interpolate({
     inputRange: [0, 1, 2],
-    outputRange: ['0%', '100%', '200%'],
+    outputRange: [0, tabWidth, tabWidth * 2],
   });
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* ── Top tab bar ── */}
-      <View style={[styles.tabBar, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
+      <View
+        style={[styles.tabBar, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}
+        onLayout={(e) => setTabBarWidth(e.nativeEvent.layout.width)}
+      >
         {TABS.map(({ key, label, testID }, index) => {
           const isActive = activeTab === key;
           return (
@@ -145,7 +149,7 @@ export function ProfileTabsScreen({ route, navigation }: Props) {
         <Animated.View
           style={[
             styles.indicator,
-            { backgroundColor: colors.accent, width: tabWidth, transform: [{ translateX }] },
+            { backgroundColor: colors.accent, width: tabWidth || `${100 / TABS.length}%`, transform: [{ translateX }] },
           ]}
         />
       </View>

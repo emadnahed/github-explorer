@@ -14,7 +14,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.githubexplorer.app"
+      "bundleIdentifier": "com.githubexplorer.app",
+      "appleTeamId": "5GGC88J3VL"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,6 +24,8 @@
       },
       "package": "com.githubexplorer.app"
     },
-    "plugins": ["expo-system-ui"]
+    "plugins": [
+      "expo-system-ui"
+    ]
   }
 }

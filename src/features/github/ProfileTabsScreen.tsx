@@ -112,8 +112,8 @@ export function ProfileTabsScreen({ route, navigation }: Props) {
 
   const tabWidth = tabBarWidth / TABS.length;
   const translateX = indicatorAnim.interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [0, tabWidth, tabWidth * 2],
+    inputRange: TABS.map((_, i) => i),
+    outputRange: TABS.map((_, i) => i * tabWidth),
   });
 
   return (

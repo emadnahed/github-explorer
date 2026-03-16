@@ -50,7 +50,7 @@ export function ProfileScreen() {
       automaticallyAdjustKeyboardInsets
     >
       <ProfileHeader user={currentUser} />
-      <View style={{ marginVertical: 10 }} />
+      <View style={styles.spacer} />
       {!reposLoading && repos.length > 0 && (
         <DeveloperScore user={currentUser} repos={repos} />
       )}
@@ -219,5 +219,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  spacer: { marginVertical: 10 },
   bottomPad: { height: 32 },
 });

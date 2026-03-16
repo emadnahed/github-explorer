@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+# Design files
+github-talent-scout-screens.html
+
 # Xcode
 #
 build/
@@ -88,6 +91,7 @@ yarn-error.*
 # local env files
 .env*.local
 .env
+ios/.xcode.env.local
 
 # typescript
 *.tsbuildinfo

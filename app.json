@@ -14,15 +14,18 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.githubexplorer.app"
+      "bundleIdentifier": "com.githubexplorer.app",
+      "appleTeamId": "5GGC88J3VL"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#0D1117"
       },
       "package": "com.githubexplorer.app"
     },
-    "plugins": ["expo-system-ui"]
+    "plugins": [
+      "expo-system-ui"
+    ]
   }
 }

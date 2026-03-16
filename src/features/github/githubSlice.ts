@@ -211,7 +211,9 @@ const githubSlice = createSlice({
     },
     clearHistory(state) {
       state.searchHistory = [];
-      storage.delete(HISTORY_KEY);
+      // Use set instead of delete to avoid a TurboModule void-method exception
+      // that occurs in release builds when delete() is called from within a reducer.
+      storage.set(HISTORY_KEY, JSON.stringify([]));
     },
     clearUserData(state) {
       state.currentUser = null;

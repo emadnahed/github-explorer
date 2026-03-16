@@ -21,16 +21,30 @@ describe('Bookmarks', () => {
   });
 
   it('should remove a bookmark when tapped again', async () => {
-    // torvalds is still bookmarked from the previous test (MMKV persists across reloads)
-    await searchAndOpenProfile('torvalds');
+    // Setup: ensure the bookmark chip is visible before testing removal.
+    // After test 1 it is already there; if this test runs in isolation it may not be,
+    // so we add it first. Note: newInstance does NOT clear MMKV on iOS (file-based),
+    // so we check chip presence rather than assuming a clean slate.
+    await goToExplore();
+    try {
+      await waitFor(element(by.id('bookmark-chip-torvalds')))
+        .toBeVisible()
+        .withTimeout(1000);
+    } catch {
+      // Chip absent — bookmark torvalds first
+      await searchAndOpenProfile('torvalds');
+      await element(by.id('profile-header-bookmark-btn')).tap();
+      await goToExplore();
+      await device.reloadReactNative();
+    }
 
-    // One tap toggles it off (removing the bookmark)
+    // Act: navigate back to profile and remove the bookmark
+    await searchAndOpenProfile('torvalds');
     await element(by.id('profile-header-bookmark-btn')).tap();
 
+    // Assert: chip is gone after reload
     await goToExplore();
     await device.reloadReactNative();
-
-    // Chip should no longer exist
     await waitFor(element(by.id('bookmark-chip-torvalds')))
       .not.toBeVisible()
       .withTimeout(3000);

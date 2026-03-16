@@ -28,12 +28,33 @@ describe('Compare Screen', () => {
   });
 
   it('should display side-by-side comparison when 2 developers are selected', async () => {
-    // torvalds is already in compareList from the previous test
-    await goToExplore();
+    // Ensure torvalds is in compareList without reloading the React Native bundle.
+    // reloadReactNative() causes a full app re-render that keeps Detox busy far longer
+    // than goToCompare()'s synchronisation window. Instead, check the current state:
+    // if the hint for torvalds is visible (test 2 already added him), reuse it;
+    // otherwise add him here so this test can also run in isolation.
+    try {
+      await goToCompare();
+      await waitFor(
+        element(by.text("You've added @torvalds — add one more developer to compare.")),
+      )
+        .toBeVisible()
+        .withTimeout(2000);
+      // torvalds confirmed in compareList — go back to Explore to add gaearon
+      await goToExplore();
+    } catch {
+      // compareList is empty — add torvalds first
+      await goToExplore();
+      await searchAndOpenProfile('torvalds');
+      await waitFor(element(by.id('developer-score-card')))
+        .toBeVisible()
+        .withTimeout(30000);
+      await element(by.id('profile-header-compare-btn')).tap();
+      await goToExplore();
+    }
+
+    // Add gaearon (wait for score card to ensure fetchRepos is idle before goToCompare)
     await searchAndOpenProfile('gaearon');
-    // Wait for repos to load (developer-score-card renders only after fetchRepos completes).
-    // Without this, fetchRepos remains in-flight when goToCompare() runs, causing Detox to
-    // wait for idle indefinitely and exceed the home-tab-compare visibility timeout.
     await waitFor(element(by.id('developer-score-card')))
       .toBeVisible()
       .withTimeout(30000);

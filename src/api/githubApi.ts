@@ -2,12 +2,15 @@ import axios from 'axios';
 
 const BASE_URL = 'https://api.github.com';
 
+const GITHUB_TOKEN = process.env.EXPO_PUBLIC_GITHUB_TOKEN;
+
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 15_000,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/vnd.github.v3+json',
+    ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
   },
 });
 

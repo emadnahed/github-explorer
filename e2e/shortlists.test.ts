@@ -23,12 +23,29 @@ describe('Shortlists', () => {
   });
 
   it('should expand a shortlist to reveal the members list', async () => {
+    // newInstance does NOT clear MMKV on iOS (file-based), so LIST_NAME from test 2
+    // may already exist. Check first — only create it if absent. Creating a new shortlist
+    // when the name already exists triggers a duplicate-name Alert that blocks all further
+    // taps, and creating any new shortlist leaves keyboard/animation state that causes
+    // goToShortlists() to time out in subsequent tests.
+    let cardVisible = false;
+    try {
+      await waitFor(element(by.id(`shortlist-card-${LIST_NAME}`)))
+        .toBeVisible()
+        .withTimeout(1000);
+      cardVisible = true;
+    } catch {}
+
+    if (!cardVisible) {
+      await element(by.id('shortlist-name-input')).typeText(LIST_NAME);
+      await element(by.id('shortlist-add-btn')).tap();
+      await waitFor(element(by.id(`shortlist-card-${LIST_NAME}`)))
+        .toBeVisible()
+        .withTimeout(3000);
+    }
+
     // handleCreate auto-expands the newly created card, so the members list is already visible.
     // Collapse it first to test the toggle, then expand.
-    await waitFor(element(by.id(`shortlist-card-${LIST_NAME}`)))
-      .toBeVisible()
-      .withTimeout(3000);
-
     await element(by.id(`shortlist-card-${LIST_NAME}`)).tap(); // collapse
     await element(by.id(`shortlist-card-${LIST_NAME}`)).tap(); // expand
 

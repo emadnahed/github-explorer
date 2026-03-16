@@ -22,7 +22,16 @@
     "build:e2e:ios": "detox build --configuration ios.sim.debug",
     "build:e2e:android": "detox build --configuration android.emu.debug",
     "test:e2e:ios": "detox test --configuration ios.sim.debug",
-    "test:e2e:android": "detox test --configuration android.emu.debug"
+    "test:e2e:ios:search": "detox test --configuration ios.sim.debug e2e/search.test.ts",
+    "test:e2e:ios:profile": "detox test --configuration ios.sim.debug e2e/profile.test.ts",
+    "test:e2e:ios:shortlists": "detox test --configuration ios.sim.debug e2e/shortlists.test.ts",
+    "test:e2e:ios:compare": "detox test --configuration ios.sim.debug e2e/compare.test.ts",
+    "test:e2e:android": "detox test --configuration android.emu.debug",
+    "test:e2e:android:search": "detox test --configuration android.emu.debug e2e/search.test.ts",
+    "test:e2e:android:profile": "detox test --configuration android.emu.debug e2e/profile.test.ts",
+    "test:e2e:android:shortlists": "detox test --configuration android.emu.debug e2e/shortlists.test.ts",
+    "test:e2e:android:compare": "detox test --configuration android.emu.debug e2e/compare.test.ts",
+    "test:e2e:all": "npm run test:e2e:ios && npm run test:e2e:android"
   },
   "dependencies": {
     "@react-navigation/bottom-tabs": "^7.3.10",

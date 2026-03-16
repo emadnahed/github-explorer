@@ -168,8 +168,8 @@ export function SearchScreen({ navigation }: Props) {
       setTrendingLoading(true);
       try {
         const [devsRes, reposRes] = await Promise.all([
-          apiClient.get(TRENDING_DEVS_URL),
-          apiClient.get(TRENDING_REPOS_URL),
+          apiClient.get(TRENDING_DEVS_URL, { timeout: 5000 }),
+          apiClient.get(TRENDING_REPOS_URL, { timeout: 5000 }),
         ]);
         if (!cancelled) {
           const devs = (devsRes.data.items as TrendingUser[]) ?? [];

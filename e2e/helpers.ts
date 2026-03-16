@@ -8,7 +8,11 @@ export async function searchAndOpenProfile(username: string): Promise<void> {
 
   await element(by.id('search-input')).clearText();
   await element(by.id('search-input')).typeText(username);
+  // Disable sync before tapReturnKey so that background work (e.g. CDN image
+  // loads on first SearchScreen mount) does not block Detox from firing the action.
+  await device.disableSynchronization();
   await element(by.id('search-input')).tapReturnKey();
+  await device.enableSynchronization();
 
   await waitFor(element(by.id('user-result-card')))
     .toBeVisible()
@@ -22,13 +26,17 @@ export async function searchAndOpenProfile(username: string): Promise<void> {
 
 /** Tap the Shortlists bottom-tab and wait for the screen container to appear. */
 export async function goToShortlists(): Promise<void> {
+  // Disable sync for the entire navigation to Shortlists — NetworkIdlingResource
+  // from the trending fetch blocks all waitFor calls on Android otherwise.
+  await device.disableSynchronization();
   await waitFor(element(by.id('home-tab-shortlists')))
     .toBeVisible()
-    .withTimeout(10000);
+    .withTimeout(20000);
   await element(by.id('home-tab-shortlists')).tap();
   await waitFor(element(by.id('shortlists-screen')))
     .toBeVisible()
-    .withTimeout(8000);
+    .withTimeout(15000);
+  await device.enableSynchronization();
 }
 
 /** Tap the Compare bottom-tab. */

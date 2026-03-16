@@ -34,7 +34,10 @@ describe('Repositories Tab', () => {
 
 describe('Language Insights Tab', () => {
   beforeAll(async () => {
-    // Reuse existing app — already on torvalds profile, switch to Languages top tab
+    // Independent launch so this describe block can run in isolation without relying
+    // on the Repositories Tab describe's navigation state.
+    await device.launchApp({ newInstance: true });
+    await searchAndOpenProfile('torvalds');
     await element(by.id('profile-tab-languages')).tap();
   });
 

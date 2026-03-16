@@ -43,17 +43,30 @@ describe('Profile Screen', () => {
   });
 
   it('should persist the recruiter note after navigating away and back', async () => {
-    // Double-tap Explore: first tap switches to Explore tab, second pops ProfileTabs → Search
-    await goToExplore();
-
-    // Navigate back to the same profile
-    await searchAndOpenProfile('torvalds');
-
+    // Independent setup: save the note from the current profile view so this test
+    // does not rely on the previous test having already saved it.
     await waitFor(element(by.id('recruiter-notes-input')))
       .toBeVisible()
       .whileElement(by.id('profile-scroll'))
       .scroll(200, 'down');
+    await element(by.id('recruiter-notes-input')).tap();
+    await element(by.id('recruiter-notes-input')).clearText();
+    await element(by.id('recruiter-notes-input')).typeText('Great kernel developer');
+    await element(by.id('profile-scroll')).scroll(250, 'down', 0.5, 0.5);
+    await element(by.id('recruiter-notes-save-btn')).tap();
+    await waitFor(element(by.text('Saved!')))
+      .toBeVisible()
+      .withTimeout(3000);
 
+    // Act: navigate away and back to the same profile
+    await goToExplore();
+    await searchAndOpenProfile('torvalds');
+
+    // Assert: note persisted in MMKV across navigation
+    await waitFor(element(by.id('recruiter-notes-input')))
+      .toBeVisible()
+      .whileElement(by.id('profile-scroll'))
+      .scroll(200, 'down');
     await detoxExpect(element(by.id('recruiter-notes-input'))).toHaveText(
       'Great kernel developer',
     );

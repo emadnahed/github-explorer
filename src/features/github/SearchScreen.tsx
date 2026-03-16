@@ -26,6 +26,7 @@ import { SearchBar } from '@/components/SearchBar';
 import { useTheme } from '@/hooks/useTheme';
 import { formatNumber } from '@/utils/helpers';
 import { apiClient } from '@/api/githubApi';
+import { storage } from '@/utils/storage';
 import type { ExploreStackParamList } from '@/navigation/ExploreStackNavigator';
 
 type Props = NativeStackScreenProps<ExploreStackParamList, 'Search'>;
@@ -88,6 +89,46 @@ const TRENDING_DEVS_URL =
 const TRENDING_REPOS_URL =
   '/search/repositories?q=stars:>100000&sort=stars&order=desc&per_page=8';
 
+// ─── Trending cache ───────────────────────────────────────────────────────────
+// Two-level cache to minimise GitHub search API usage (10 req/min limit):
+//  1. Module-level var: survives React Navigation remounts within a session.
+//  2. MMKV: survives device.reloadReactNative() (JS bundle reload in tests).
+// Both caches are reset when the native app restarts (device.launchApp newInstance).
+const TRENDING_MMKV_KEY = 'trending_cache_v1';
+const TRENDING_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+interface TrendingCachePayload {
+  devs: TrendingUser[];
+  repos: TrendingRepo[];
+  ts: number;
+}
+
+let trendingMemCache: TrendingCachePayload | null = null;
+
+function readTrendingCache(): TrendingCachePayload | null {
+  if (trendingMemCache) return trendingMemCache;
+  try {
+    const raw = storage.getString(TRENDING_MMKV_KEY);
+    if (!raw) return null;
+    const parsed: TrendingCachePayload = JSON.parse(raw);
+    if (Date.now() - parsed.ts > TRENDING_TTL_MS) return null;
+    trendingMemCache = parsed;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function writeTrendingCache(devs: TrendingUser[], repos: TrendingRepo[]): void {
+  const payload: TrendingCachePayload = { devs, repos, ts: Date.now() };
+  trendingMemCache = payload;
+  try {
+    storage.set(TRENDING_MMKV_KEY, JSON.stringify(payload));
+  } catch {
+    // Non-fatal — in-memory cache still works
+  }
+}
+
 const GITHUB_STATS: Array<{
   icon: React.ComponentProps<typeof Ionicons>['name'];
   label: string;
@@ -111,26 +152,31 @@ export function SearchScreen({ navigation }: Props) {
     (state) => state.github,
   );
 
-  const [trendingDevs, setTrendingDevs] = useState<TrendingUser[]>([]);
-  const [trendingRepos, setTrendingRepos] = useState<TrendingRepo[]>([]);
-  const [trendingLoading, setTrendingLoading] = useState(true);
+  const cached = readTrendingCache();
+  const [trendingDevs, setTrendingDevs] = useState<TrendingUser[]>(cached?.devs ?? []);
+  const [trendingRepos, setTrendingRepos] = useState<TrendingRepo[]>(cached?.repos ?? []);
+  const [trendingLoading, setTrendingLoading] = useState(!cached);
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: 'GitHub Explorer' });
   }, [navigation]);
 
   useEffect(() => {
+    if (readTrendingCache()) return; // Cache hit — skip network call
     let cancelled = false;
     async function loadTrending() {
       setTrendingLoading(true);
       try {
         const [devsRes, reposRes] = await Promise.all([
-          apiClient.get(TRENDING_DEVS_URL),
-          apiClient.get(TRENDING_REPOS_URL),
+          apiClient.get(TRENDING_DEVS_URL, { timeout: 5000 }),
+          apiClient.get(TRENDING_REPOS_URL, { timeout: 5000 }),
         ]);
         if (!cancelled) {
-          setTrendingDevs((devsRes.data.items as TrendingUser[]) ?? []);
-          setTrendingRepos((reposRes.data.items as TrendingRepo[]) ?? []);
+          const devs = (devsRes.data.items as TrendingUser[]) ?? [];
+          const repos = (reposRes.data.items as TrendingRepo[]) ?? [];
+          writeTrendingCache(devs, repos);
+          setTrendingDevs(devs);
+          setTrendingRepos(repos);
         }
       } catch (error) {
         console.error('Failed to load trending data:', error);
@@ -194,6 +240,7 @@ export function SearchScreen({ navigation }: Props) {
 
       {userError && !userLoading && (
         <View
+          testID="search-error-box"
           style={[
             styles.errorBox,
             { backgroundColor: colors.surface, borderColor: colors.error },
@@ -216,7 +263,7 @@ export function SearchScreen({ navigation }: Props) {
           <Section
             title="Recent Searches"
             action={
-              <TouchableOpacity onPress={() => dispatch(clearHistory())}>
+              <TouchableOpacity testID="history-clear-btn" onPress={() => dispatch(clearHistory())}>
                 <Text style={[styles.clearText, { color: colors.accent }]}>Clear</Text>
               </TouchableOpacity>
             }
@@ -225,6 +272,7 @@ export function SearchScreen({ navigation }: Props) {
               {searchHistory.map((username) => (
                 <TouchableOpacity
                   key={username}
+                  testID={`history-chip-${username}`}
                   style={[
                     styles.chip,
                     { backgroundColor: colors.surface, borderColor: colors.border },
@@ -251,6 +299,7 @@ export function SearchScreen({ navigation }: Props) {
               {bookmarks.map((username) => (
                 <TouchableOpacity
                   key={username}
+                  testID={`bookmark-chip-${username}`}
                   style={[
                     styles.chip,
                     { backgroundColor: colors.surface, borderColor: colors.border },
@@ -336,6 +385,7 @@ function UserResultCard({ user, onPress }: { user: GitHubUser; onPress: () => vo
   const colors = useTheme();
   return (
     <Pressable
+      testID="user-result-card"
       onPress={onPress}
       style={[styles.userCard, { backgroundColor: colors.surface, borderColor: colors.border }]}
     >

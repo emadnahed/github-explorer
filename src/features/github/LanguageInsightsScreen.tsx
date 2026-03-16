@@ -1,18 +1,13 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchLanguages } from './githubSlice';
 import { selectLanguageSegments } from './githubSelectors';
 import { LanguageChart } from '@/components/LanguageChart';
 import { useTheme } from '@/hooks/useTheme';
 import { formatBytes } from '@/utils/chartHelpers';
-import type { ProfileTabParamList } from '@/navigation/ProfileNavigator';
 
-type Props = BottomTabScreenProps<ProfileTabParamList, 'LanguageInsights'>;
-
-export function LanguageInsightsScreen({ route }: Props) {
-  const { username } = route.params;
+export function LanguageInsightsScreen({ username }: { username: string }) {
   const dispatch = useAppDispatch();
   const colors = useTheme();
 
@@ -53,6 +48,7 @@ export function LanguageInsightsScreen({ route }: Props) {
 
   return (
     <ScrollView
+      testID="language-insights-scroll"
       style={[styles.container, { backgroundColor: colors.background }]}
       showsVerticalScrollIndicator={false}
     >

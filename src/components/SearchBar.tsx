@@ -49,6 +49,7 @@ export const SearchBar = memo(({ value, onChangeText, onSubmit, placeholder = 'S
           style={styles.icon}
         />
         <TextInput
+          testID="search-input"
           style={[styles.input, { color: colors.text }]}
           value={value}
           onChangeText={onChangeText}

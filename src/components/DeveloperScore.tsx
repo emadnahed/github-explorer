@@ -19,7 +19,7 @@ export const DeveloperScore = memo(({ user, repos }: Props) => {
   const label = scoreLabel(breakdown.total);
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+    <View testID="developer-score-card" style={[styles.container, { backgroundColor: colors.surface, borderColor: colors.border }]}>
       <View style={styles.top}>
         <View style={styles.titleGroup}>
           <Text style={[styles.title, { color: colors.textSecondary }]}>Developer Score</Text>

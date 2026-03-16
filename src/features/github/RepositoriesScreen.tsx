@@ -8,16 +8,12 @@ import {
   ActivityIndicator,
   ListRenderItem,
 } from 'react-native';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchRepos, setRepoSort, type GitHubRepo, type RepoSort } from './githubSlice';
 import { selectSortedRepos } from './githubSelectors';
 import { RepoCard } from '@/components/RepoCard';
 import { SkeletonLoader } from '@/components/SkeletonLoader';
 import { useTheme } from '@/hooks/useTheme';
-import type { ProfileTabParamList } from '@/navigation/ProfileNavigator';
-
-type Props = BottomTabScreenProps<ProfileTabParamList, 'Repositories'>;
 
 const SORT_OPTIONS: { key: RepoSort; label: string }[] = [
   { key: 'stars', label: 'Stars' },
@@ -25,8 +21,7 @@ const SORT_OPTIONS: { key: RepoSort; label: string }[] = [
   { key: 'name', label: 'A-Z' },
 ];
 
-export function RepositoriesScreen({ route }: Props) {
-  const { username } = route.params;
+export function RepositoriesScreen({ username }: { username: string }) {
   const dispatch = useAppDispatch();
   const colors = useTheme();
   const [refreshing, setRefreshing] = useState(false);
@@ -78,6 +73,7 @@ export function RepositoriesScreen({ route }: Props) {
         {SORT_OPTIONS.map(({ key, label }) => (
           <TouchableOpacity
             key={key}
+            testID={`repo-sort-${key}`}
             onPress={() => dispatch(setRepoSort(key))}
             style={[
               styles.sortBtn,
@@ -99,6 +95,7 @@ export function RepositoriesScreen({ route }: Props) {
       </View>
 
       <FlatList
+        testID="repos-list"
         data={sortedRepos}
         keyExtractor={keyExtractor}
         renderItem={renderItem}

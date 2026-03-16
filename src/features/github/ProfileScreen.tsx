@@ -6,8 +6,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { ProfileHeader } from '@/components/ProfileHeader';
 import { StatsCard } from '@/components/StatsCard';
@@ -16,11 +17,8 @@ import { DeveloperScore } from '@/components/DeveloperScore';
 import { useTheme } from '@/hooks/useTheme';
 import { setNote } from './githubSlice';
 import { selectRecruiterNote } from './githubSelectors';
-import type { ProfileTabParamList } from '@/navigation/ProfileNavigator';
 
-type Props = BottomTabScreenProps<ProfileTabParamList, 'Profile'>;
-
-export function ProfileScreen({ route }: Props) {
+export function ProfileScreen() {
   const colors = useTheme();
   const { currentUser, userLoading, userError, repos, reposLoading } = useAppSelector(
     (state) => state.github,
@@ -45,9 +43,15 @@ export function ProfileScreen({ route }: Props) {
   }
 
   return (
-    <ScrollView
+    <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: colors.background }]}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+    <ScrollView
+      testID="profile-scroll"
+      style={styles.scrollFill}
       showsVerticalScrollIndicator={false}
+      keyboardDismissMode="on-drag"
     >
       <ProfileHeader user={currentUser} />
 
@@ -94,6 +98,7 @@ export function ProfileScreen({ route }: Props) {
 
       <View style={styles.bottomPad} />
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -128,6 +133,7 @@ function RecruiterNotes({ username }: { username: string }) {
     <View style={styles.notesSection}>
       <Text style={[styles.notesTitle, { color: colors.textSecondary }]}>Recruiter Notes</Text>
       <TextInput
+        testID="recruiter-notes-input"
         style={[
           styles.notesInput,
           {
@@ -147,6 +153,7 @@ function RecruiterNotes({ username }: { username: string }) {
         }}
       />
       <TouchableOpacity
+        testID="recruiter-notes-save-btn"
         style={[
           styles.saveBtn,
           { backgroundColor: saved ? colors.accentGreen : colors.accent },
@@ -162,6 +169,7 @@ function RecruiterNotes({ username }: { username: string }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  scrollFill: { flex: 1 },
   centered: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24 },
   errorText: { fontSize: 14, textAlign: 'center' },
   divider: { height: 1, marginHorizontal: 20, marginBottom: 20 },

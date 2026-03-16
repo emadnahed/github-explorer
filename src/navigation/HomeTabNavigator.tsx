@@ -51,7 +51,7 @@ export function HomeTabNavigator() {
       <Tab.Screen
         name="Explore"
         component={ExploreStackNavigator}
-        options={{ headerShown: false, tabBarLabel: 'Explore' }}
+        options={{ headerShown: false, tabBarLabel: 'Explore', tabBarButtonTestID: 'home-tab-explore' }}
       />
       <Tab.Screen
         name="Shortlists"
@@ -60,6 +60,7 @@ export function HomeTabNavigator() {
           ...sharedHeaderOptions,
           title: 'Shortlists',
           tabBarLabel: 'Shortlists',
+          tabBarButtonTestID: 'home-tab-shortlists',
         }}
       />
       <Tab.Screen
@@ -69,6 +70,7 @@ export function HomeTabNavigator() {
           ...sharedHeaderOptions,
           title: 'Compare',
           tabBarLabel: 'Compare',
+          tabBarButtonTestID: 'home-tab-compare',
         }}
       />
     </Tab.Navigator>

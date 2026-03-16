@@ -17,6 +17,10 @@ allprojects {
     google()
     mavenCentral()
     maven { url 'https://www.jitpack.io' }
+    maven {
+      // Detox Android SDK is bundled inside the npm package
+      url("$rootDir/../node_modules/detox/Detox-android")
+    }
   }
 }
 

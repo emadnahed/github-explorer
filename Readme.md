@@ -5,8 +5,8 @@
 ## 📱 Download
 
 <!-- APK/IPA Links -->
-[![Android APK](https://img.shields.io/badge/Android-APK-green?style=for-the-badge&logo=android)](#)
-[![iOS IPA](https://img.shields.io/badge/iOS-IPA-blue?style=for-the-badge&logo=ios)](#)
+[![Android APK](https://drive.google.com/file/d/19KlkCcqaPCVAbHtpqFfj92FyKMJ7zLKN/view?usp=sharing)](#)
+[![iOS IPA](https://drive.google.com/file/d/19pVhwOW0c1JMkULStF8jA5CjSCxJQXF_/view?usp=sharing)](#)
 
 <!-- App Screenshots -->
 ## 📸 Screenshots

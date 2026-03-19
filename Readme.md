@@ -17,14 +17,11 @@
 ### 🚀 Download the App
 
 <p align="center">
-  <strong>Get the latest version for your device</strong><br><br>
-  
-  <a href="ANDROID_LINK">
-    <img src="https://img.shields.io/badge/📱%20Download-Android%20APK-3DDC84?style=for-the-badge&logo=android&logoColor=white" />
+  <a href="https://drive.google.com/file/d/1DqXARZ7QbvqDmUkkthJb3MnJuIFJfzxj/view?usp=sharing">
+    <img src="https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white&style=for-the-badge" />
   </a>
-  &nbsp;&nbsp;&nbsp;
-  <a href="IOS_LINK">
-    <img src="https://img.shields.io/badge/🍎%20Download-iOS%20IPA-000000?style=for-the-badge&logo=apple&logoColor=white" />
+  <a href="https://drive.google.com/file/d/1fqpWZjWDBZpHC1Qpd6rJuKKIXqdlM7lY/view?usp=sharing">
+    <img src="https://img.shields.io/badge/iOS-IPA-000000?logo=apple&logoColor=white&style=for-the-badge" />
   </a>
 </p>
 

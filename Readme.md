@@ -17,10 +17,10 @@
 ### 🚀 Download the App
 
 <p align="center">
-  <a href="https://drive.google.com/file/d/1DqXARZ7QbvqDmUkkthJb3MnJuIFJfzxj/view?usp=sharing">
+  <a href="https://drive.google.com/file/d/19KlkCcqaPCVAbHtpqFfj92FyKMJ7zLKN/view?usp=sharing">
     <img src="https://img.shields.io/badge/Android-APK-3DDC84?logo=android&logoColor=white&style=for-the-badge" />
   </a>
-  <a href="https://drive.google.com/file/d/1fqpWZjWDBZpHC1Qpd6rJuKKIXqdlM7lY/view?usp=sharing">
+  <a href="https://drive.google.com/file/d/19pVhwOW0c1JMkULStF8jA5CjSCxJQXF_/view?usp=sharing">
     <img src="https://img.shields.io/badge/iOS-IPA-000000?logo=apple&logoColor=white&style=for-the-badge" />
   </a>
 </p>

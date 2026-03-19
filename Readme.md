@@ -2,12 +2,31 @@
 
 **A React Native mobile app that helps recruiters discover and evaluate developers using real GitHub data.**
 
-## 📱 Download
+<!-- App Screenshots -->
+## 📸 Screenshots
 
-<!-- APK/IPA Links -->
-[![Android APK](https://img.shields.io/badge/Download-Android_APK-3DDC84?logo=android&logoColor=white&style=for-the-badge)](https://drive.google.com/file/d/19KlkCcqaPCVAbHtpqFfj92FyKMJ7zLKN/view?usp=sharing)
-[![iOS IPA](https://img.shields.io/badge/Download-iOS_IPA-000000?logo=apple&logoColor=white&style=for-the-badge)](https://drive.google.com/file/d/19pVhwOW0c1JMkULStF8jA5CjSCxJQXF_/view?usp=sharing)
+<p align="center">
+  <img alt="image" src="https://github.com/user-attachments/assets/c6c36a95-4aa4-4dd8-bb1d-bf5f81b21df7" width="24%" /> 
+  <img alt="image" src="https://github.com/user-attachments/assets/12c8d20e-6b50-4d59-8469-661a28d99e5d" width="24%" />    
+  <img alt="image" src="https://github.com/user-attachments/assets/1b15e8b6-abcd-46b4-8d6b-ccb8feb4c261" width="24%" /> 
+  <img alt="image" src="https://github.com/user-attachments/assets/be1655f6-6c20-4bd5-bed5-1365c05d2c01" width="24%" />
+</p>
 
+<!-- Add your app screenshots here -->
+
+### 🚀 Download the App
+
+<p align="center">
+  <strong>Get the latest version for your device</strong><br><br>
+  
+  <a href="ANDROID_LINK">
+    <img src="https://img.shields.io/badge/📱%20Download-Android%20APK-3DDC84?style=for-the-badge&logo=android&logoColor=white" />
+  </a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="IOS_LINK">
+    <img src="https://img.shields.io/badge/🍎%20Download-iOS%20IPA-000000?style=for-the-badge&logo=apple&logoColor=white" />
+  </a>
+</p>
 
 ## ✨ Features
 
@@ -88,11 +107,6 @@ Uses GitHub Public REST API:
 - **MMKV** caching with 1-hour TTL
 - **GitHub avatar** caching
 
-<!-- App Screenshots -->
-## 📸 Screenshots
-<img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/c6c36a95-4aa4-4dd8-bb1d-bf5f81b21df7" /> <img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/12c8d20e-6b50-4d59-8469-661a28d99e5d" /> <img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/1b15e8b6-abcd-46b4-8d6b-ccb8feb4c261" /> <img width="559" height="1062" alt="image" src="https://github.com/user-attachments/assets/be1655f6-6c20-4bd5-bed5-1365c05d2c01" />
-
-<!-- Add your app screenshots here -->
 
 ## 📜 License
 
